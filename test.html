@@ -1,0 +1,3024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dart & Flutter Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-weight: 700;
+            background: #011627;
+            min-height: 100vh;
+            padding: 20px;
+            color: #e9b103;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(1, 22, 39, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff0000;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #011627 0%, #032541 100%);
+            color: #e9b103;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #ff0000;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,0,0,0.1) 0%, rgba(255,0,0,0) 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .quiz-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #e9b103;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ff0000;
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #ff0000;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(3, 37, 65, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border-left: 5px solid #ff0000;
+        }
+
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+        }
+
+        .question-text {
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e9b103;
+        }
+
+        .code-block {
+            background: #0a192f;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'CODE';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: #ff0000;
+            opacity: 0.7;
+            font-weight: 700;
+        }
+
+        .code-content {
+            color: #64ffda;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        .code-keyword {
+            color: #c792ea;
+        }
+
+        .code-function {
+            color: #82aaff;
+        }
+
+        .code-string {
+            color: #c3e88d;
+        }
+
+        .code-number {
+            color: #f78c6c;
+        }
+
+        .code-comment {
+            color: #546e7a;
+            font-style: italic;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background: rgba(1, 22, 39, 0.6);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            background: rgba(3, 37, 65, 0.8);
+            border-color: #ff0000;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            accent-color: #ff0000;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+            color: #e9b103;
+            font-weight: 700;
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, rgba(146, 208, 80, 0.3) 0%, rgba(146, 208, 80, 0.2) 100%);
+            border-color: #92d050;
+            animation: correctPulse 0.6s ease;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .option.incorrect {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3) 0%, rgba(255, 0, 0, 0.2) 100%);
+            border-color: #ff0000;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px 35px;
+            border: 2px solid #ff0000;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        #submitBtn {
+            background: linear-gradient(135deg, #011627 0%, #032541 100%);
+            color: #e9b103;
+        }
+
+        #submitBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(135deg, #032541 0%, #011627 100%);
+        }
+
+        #showAnswersBtn {
+            background: linear-gradient(135deg, #011627 0%, #032541 100%);
+            color: #e9b103;
+        }
+
+        #showAnswersBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(135deg, #032541 0%, #011627 100%);
+        }
+
+        .score-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(1, 22, 39, 0.9) 0%, rgba(3, 37, 65, 0.9) 100%);
+            border-radius: 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e9b103;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff0000;
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+
+        .score-container.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #score {
+            color: #92d050;
+            font-size: 1.6rem;
+            margin: 0 5px;
+            font-weight: 700;
+        }
+
+        #scoreMessage {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(1, 22, 39, 0.6);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #ff0000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #e9b103);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #e9b103;
+            font-size: 0.9rem;
+            border-top: 2px solid #ff0000;
+            opacity: 0.8;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .question {
+                padding: 20px 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .option {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dart & Flutter Quiz</h1>
+            <div class="subtitle">
+    Hello Friend 🖥️🔓<br>
+    6da68b59269e62aaddd0e4566a70db9f37c0f0b5516c656153435986a2f60375<br>
+    7606d383b942279cc6a0f276356d4e4d
+</div>
+
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="quiz-section">
+                <h2 class="section-title">Section 1: Dart Basics</h2>
+
+                <div class="question">
+                    <div class="question-text">1. What does the following Dart code output?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-number">0</span>; i < <span class="code-number">3</span>; i++) {
+    <span class="code-keyword">if</span> (i == <span class="code-number">1</span>) <span class="code-keyword">continue</span>;
+    <span class="code-function">print</span>(i);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="a"> 0 1 2
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="b"> 1 2
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="c"> 0 2
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="d"> 0 1
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. Which of the following is NOT a key feature of Flutter?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="a"> Fast performance on any device
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="b"> Real-time database management
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="c"> Hot Reload for instant updates
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="d"> Cross-platform support
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">3. How many times will the following loop execute?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">int</span> x = <span class="code-number">5</span>;
+<span class="code-keyword">while</span> (x > <span class="code-number">0</span>) {
+    <span class="code-function">print</span>(x);
+    x--;
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="a"> INFINITE LOOP
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="b"> 6 times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="c"> 5 times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="d"> 4 times
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">4. In Dart, what is the purpose of the this keyword?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="a"> To initialize main()
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="b"> To create an anonymous function
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="c"> To refer to the current instance of a class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="d"> To define a new function
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">5. When would you choose to use a while loop over a for loop in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="a"> When the number of iterations depends on a condition evaluated at runtime
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="b"> When you know the exact number of iterations required
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="c"> When you need a loop that executes at least once
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="d"> When the loop needs to iterate through a collection
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">6. Which of the following statements about constructors is FALSE?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="a"> A constructor cannot have a return type.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="b"> Constructors can be parameterized.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="c"> A default no-argument constructor is provided if none is declared.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="d"> Constructors can be declared with the keyword 'function'.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">7. What is the purpose of Hot Reload in Flutter?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q7" value="a"> To update code and see changes instantly without losing state
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="b"> To improve code readability
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="c"> To optimize code for machine learning applications
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="d"> To compile the app faster for production
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">8. What is the purpose of getters and setters in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q8" value="a"> To increase code complexity
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="b"> To simplify the main() function
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="c"> To create instances of a class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="d"> To retrieve and initialize values of class fields
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">9. Which statement about the switch-case in Dart is true?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q9" value="a"> It cannot contain nested switch statements.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="b"> Each case must end with a break statement.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="c"> It can include variables as case values.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="d"> The default case is mandatory.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">10. Which keyword is used in Dart to define a variable whose value cannot be changed after initialization?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q10" value="a"> static
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="b"> var
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="c"> final
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="d"> dynamic
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h2 class="section-title">Section 2: Dart Advanced Concepts</h2>
+
+                <div class="question">
+                    <div class="question-text">[1] What is the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">int</span> <span class="code-function">add</span>(<span class="code-keyword">int</span> a, <span class="code-keyword">int</span> b) => a + b;
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-function">print</span>(<span class="code-function">add</span>(<span class="code-number">5</span>, <span class="code-number">10</span>));
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q11" value="a"> Syntax Error!
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="b"> 15
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="c"> 5+10
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="d"> 510
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[2] What is a class called that inherits properties from another class in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q12" value="a"> Superclass
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="b"> Parent Class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="c"> Base Class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="d"> Child Class
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[3] What is meant by the overriding method in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q13" value="a"> Using a method from another class without modification
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="b"> Redefining a method in the parent class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="c"> Copying a method from the child class to the parent class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="d"> Redefining a method in the child class that exists in the parent class
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[4] Which data type in Dart can store key-value pairs?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q14" value="a"> set
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="b"> map
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="c"> list
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="d"> array
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[5] What is Flutter?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q15" value="a"> A hardware-based development tool
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="b"> A web development language
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="c"> An open-source framework by Google for building cross-platform applications
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="d"> A database management system
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[6] Which of the following is true about a final variable in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q16" value="a"> It must be declared with a data type
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="b"> It can be assigned multiple times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="c"> It is initialized at compile time
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="d"> Its value cannot be changed once set
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[7] Which type of inheritance is NOT supported by Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q17" value="a"> Hybrid inheritance
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="b"> Single inheritance
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="c"> Multiple inheritance
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="d"> Multilevel inheritance
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[8] What will be printed by the following Dart code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">int</span> <span class="code-function">myPrice</span>() {
+    <span class="code-keyword">int</span> price = <span class="code-number">100</span>;
+    <span class="code-keyword">return</span> price;
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-function">print</span>(<span class="code-string">"Price: ${myPrice}"</span>);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q18" value="a"> Price:
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="b"> Price:myPrice()
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="c"> Price:100
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="d"> Price:()
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[9] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">int</span> number = <span class="code-number">10</span>;
+    <span class="code-keyword">if</span> (number > <span class="code-number">5</span>) {
+        <span class="code-function">print</span>(<span class="code-string">"Greater than 5"</span>);
+    }
+    <span class="code-keyword">else</span> {
+        <span class="code-function">print</span>(<span class="code-string">"Less than or equal to 5"</span>);
+    }
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q19" value="a"> No output
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="b"> Greater than 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="c"> Less than or equal to 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="d"> 5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[10] What will be the output of the following Dart code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">for</span>(<span class="code-keyword">int</span> i=<span class="code-number">0</span>;i<<span class="code-number">3</span>;i++) {
+        <span class="code-function">print</span>(i);
+    }
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q20" value="a"> 321
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="b"> 012
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="c"> 0123
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="d"> 123
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[11] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Rectangle</span>{
+    <span class="code-keyword">final</span> <span class="code-keyword">double</span> width;
+    <span class="code-keyword">final</span> <span class="code-keyword">double</span> height;
+    <span class="code-function">Rectangle</span>(<span class="code-keyword">this</span>.width,<span class="code-keyword">this</span>.height);
+    <span class="code-keyword">double</span> <span class="code-keyword">get</span> area => width * height;
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>(){
+    <span class="code-keyword">var</span> rect = <span class="code-function">Rectangle</span>(<span class="code-number">5</span>,<span class="code-number">10</span>);
+    <span class="code-function">print</span>(<span class="code-string">"Area:$(rect.area)"</span>);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q21" value="a"> Syntax Error!
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q21" value="b"> Area:15
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q21" value="c"> Area:50
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q21" value="d"> Area:5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[12] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>(){
+    <span class="code-keyword">for</span>(<span class="code-keyword">int</span> i=<span class="code-number">0</span>;i<<span class="code-number">5</span>;i++)
+        <span class="code-keyword">if</span>(i == <span class="code-number">3</span>){
+            <span class="code-keyword">break</span>;
+        }
+    <span class="code-function">print</span>(i);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q22" value="a"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q22" value="b"> 012
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q22" value="c"> 012 4
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q22" value="d"> 1245
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[13] Which of the following is NOT a feature of Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q23" value="a"> C-style syntax
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q23" value="b"> Object-oriented language
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q23" value="c"> Garbage collection
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q23" value="d"> Used only for mobile development
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[14] Which symbol in Dart is used to define a concise function with a single expression?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q24" value="a"> ->
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q24" value="b"> ;
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q24" value="c"> =>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q24" value="d"> ;
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[15] Given the following code, what will be the output?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Parent</span>{
+    <span class="code-keyword">static</span> <span class="code-keyword">int</span> count = <span class="code-number">0</span>;
+    <span class="code-function">Parent</span>() {
+        count++;
+    }
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    Parent p1 = <span class="code-function">Parent</span>();
+    Parent p2 = <span class="code-function">Parent</span>();
+    <span class="code-function">print</span>(Parent.count);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q25" value="a"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q25" value="b"> 0
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q25" value="c"> 1
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q25" value="d"> 2
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[16] In Dart, which keyword is used to skip the current iteration and proceed to the next iteration of a loop?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q26" value="a"> break
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="b"> next
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="c"> continue
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="d"> skip
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[17] Which of the following describes a key feature of Flutter's cross-platform capabilities?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q27" value="a"> It requires a separate codebase for desktop and mobile
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="b"> It allows for platform-specific code for each device
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="c"> It supports a single codebase for multiple platforms
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="d"> It only works with Android and iOS
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[18] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>(){
+    <span class="code-keyword">for</span>(<span class="code-keyword">int</span> i=<span class="code-number">1</span>;i<<span class="code-number">=5</span>;i++)
+        <span class="code-keyword">if</span>(i == <span class="code-number">3</span>){
+            <span class="code-keyword">continue</span>;
+        }
+    <span class="code-function">print</span>(i);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q28" value="a"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="b"> 1 2 4
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="c"> 0 1 2 4 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="d"> 1 2 4 5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[19] Given the following code, what will be the output?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Base</span>{
+    <span class="code-keyword">void</span> <span class="code-function">display</span>() {
+        <span class="code-function">print</span>(<span class="code-string">"Base display"</span>);
+    }
+}
+<span class="code-keyword">class</span> <span class="code-function">Derived</span> <span class="code-keyword">extends</span> Base{
+    <span class="code-keyword">void</span> <span class="code-function">display</span>() {
+        <span class="code-keyword">super</span>.<span class="code-function">display</span>();
+        <span class="code-function">print</span>(<span class="code-string">"Derived display"</span>);
+    }
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    Derived obj = <span class="code-function">Derived</span>();
+    obj.<span class="code-function">display</span>();
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q29" value="a"> No output
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q29" value="b"> Base display
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q29" value="c"> Derived display
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q29" value="d"> Base display Derived Display
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[20] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Animal</span>{
+    <span class="code-keyword">void</span> <span class="code-function">sound</span>(){
+        <span class="code-function">print</span>(<span class="code-string">"Animal makes a sound"</span>);
+    }
+}
+
+<span class="code-keyword">class</span> <span class="code-function">Dog</span> <span class="code-keyword">extends</span> Animal{
+    <span class="code-keyword">void</span> <span class="code-function">sound</span>(){
+        <span class="code-function">print</span>(<span class="code-string">"Dog barks"</span>);
+    }
+}
+
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    Dog dog = <span class="code-function">Dog</span>();
+    dog.<span class="code-function">sound</span>();
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q30" value="a"> No output
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q30" value="b"> Dog barks
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q30" value="c"> Animal makes a sound
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q30" value="d"> Animal makes a sound
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h2 class="section-title">Section 3: Dart Functions & Loops</h2>
+
+                <div class="question">
+                    <div class="question-text">1. Which part of a function defines the output's data type?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q31" value="a"> Return type
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q31" value="b"> Function name
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q31" value="c"> Argument list
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q31" value="d"> Input type
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. Which of the following supports conditional statements?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q32" value="a"> Methods
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q32" value="b"> Switch-case
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q32" value="c"> Loops
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q32" value="d"> Variables
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">3. Can constructors of the parent class be inherited in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q33" value="a"> Only static constructors can be inherited
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q33" value="b"> Only if declared as public
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q33" value="c"> No, they cannot be inherited
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q33" value="d"> Yes, always
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">4. What is the default case in a switch statement used for?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q34" value="a"> Repeat execution
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q34" value="b"> Execute code if no cases match
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q34" value="c"> To handle errors
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q34" value="d"> Exit the program
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">5. Which of the following is true about a final variable in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q35" value="a"> It can be assigned multiple times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q35" value="b"> It must be declared with a data type
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q35" value="c"> Its value cannot be changed once set
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q35" value="d"> It is initialized at compile time
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">6. In Dart, which keyword is used to skip the current iteration and proceed to the next iteration of a loop?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q36" value="a"> next
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q36" value="b"> continue
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q36" value="c"> skip
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q36" value="d"> break
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">7. What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-number">1</span>; i <= <span class="code-number">5</span>; i++) {
+        <span class="code-keyword">if</span> (i == <span class="code-number">3</span>) {
+            <span class="code-keyword">continue</span>;
+        }
+        <span class="code-function">print</span>(i);
+    }
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q37" value="a"> 1 2 4
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q37" value="b"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q37" value="c"> 0 1 2 4 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q37" value="d"> 1 2 4 5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">8. What is the purpose of a getter function in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q38" value="a"> Execute loops
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q38" value="b"> Retrieve a field's value
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q38" value="c"> Modify a field's value
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q38" value="d"> Define constructors
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">9. Which loop in Dart executes at least once, regardless of the condition?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q39" value="a"> for loop
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q39" value="b"> for-each loop
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q39" value="c"> while loop
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q39" value="d"> do-while loop
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">10. What keyword is used to define a getter in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q40" value="a"> get
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q40" value="b"> fetch
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q40" value="c"> return
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q40" value="d"> set
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="submitBtn">Submit Quiz</button>
+                <button id="showAnswersBtn">Show Answers</button>
+            </div>
+
+            <div class="score-container" id="scoreContainer">
+                Your score: <span id="score">0</span>/40
+                <div id="scoreMessage"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2024 Dart & Flutter Quiz | Test your programming knowledge
+        </div>
+    </div>
+
+    <script>
+        // Correct answers
+        const correctAnswers = {
+            q1: 'c',  // 0 2
+            q2: 'b',  // Real-time database management
+            q3: 'c',  // 5 times
+            q4: 'c',  // To refer to the current instance of a class
+            q5: 'a',  // When the number of iterations depends on a condition evaluated at runtime
+            q6: 'd',  // Constructors can be declared with the keyword 'function'.
+            q7: 'a',  // To update code and see changes instantly without losing state
+            q8: 'd',  // To retrieve and initialize values of class fields
+            q9: 'c',  // It can include variables as case values.
+            q10: 'c', // final
+            q11: 'b', // 15
+            q12: 'd', // Child Class
+            q13: 'd', // Redefining a method in the child class that exists in the parent class
+            q14: 'b', // map
+            q15: 'c', // An open-source framework by Google for building cross-platform applications
+            q16: 'd', // Its value cannot be changed once set
+            q17: 'c', // Multiple inheritance
+            q18: 'd', // Price:()
+            q19: 'b', // Greater than 5
+            q20: 'b', // 012
+            q21: 'a', // Syntax Error!
+            q22: 'a', // 3
+            q23: 'd', // Used only for mobile development
+            q24: 'c', // =>
+            q25: 'd', // 2
+            q26: 'c', // continue
+            q27: 'c', // It supports a single codebase for multiple platforms
+            q28: 'd', // 1 2 4 5
+            q29: 'd', // Base display Derived Display
+            q30: 'b', // Dog barks
+            q31: 'a', // Return type
+            q32: 'b', // Switch-case
+            q33: 'c', // No, they cannot be inherited
+            q34: 'b', // Execute code if no cases match
+            q35: 'c', // Its value cannot be changed once set
+            q36: 'b', // continue
+            q37: 'd', // 1 2 4 5
+            q38: 'b', // Retrieve a field's value
+            q39: 'd', // do-while loop
+            q40: 'a'  // get
+        };
+
+        // Get DOM elements
+        const submitBtn = document.getElementById('submitBtn');
+        const showAnswersBtn = document.getElementById('showAnswersBtn');
+        const scoreContainer = document.getElementById('scoreContainer');
+        const scoreElement = document.getElementById('score');
+        const scoreMessage = document.getElementById('scoreMessage');
+        const progressBar = document.getElementById('progressBar');
+
+        // Track answered questions
+        let answeredQuestions = new Set();
+
+        // Update progress bar when an option is selected
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function() {
+                answeredQuestions.add(this.name);
+                updateProgressBar();
+            });
+        });
+
+        function updateProgressBar() {
+            const totalQuestions = Object.keys(correctAnswers).length;
+            const progress = (answeredQuestions.size / totalQuestions) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Submit button event listener
+        submitBtn.addEventListener('click', function() {
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+
+            // Reset all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+
+            // Check each question
+            for (const questionId in correctAnswers) {
+                const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+
+                if (selectedOption) {
+                    const selectedValue = selectedOption.value;
+                    const optionElement = selectedOption.parentElement;
+
+                    if (selectedValue === correctAnswers[questionId]) {
+                        optionElement.classList.add('correct');
+                        score++;
+                    } else {
+                        optionElement.classList.add('incorrect');
+                    }
+                }
+            }
+
+            // Show score with message
+            scoreElement.textContent = score;
+            scoreContainer.classList.add('show');
+
+            // Add motivational message based on score
+            const percentage = (score / totalQuestions) * 100;
+            if (percentage >= 90) {
+                scoreMessage.textContent = "🏆 Excellent! You're a Dart & Flutter expert!";
+                scoreMessage.style.color = '#92d050';
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = "👏 Great job! You have good knowledge!";
+                scoreMessage.style.color = '#e9b103';
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = "👍 Good effort! Keep practicing!";
+                scoreMessage.style.color = '#ff9900';
+            } else {
+                scoreMessage.textContent = "📚 Keep learning! You'll get better!";
+                scoreMessage.style.color = '#ff0000';
+            }
+
+            // Scroll to score
+            scoreContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // Show Answers button event listener
+        showAnswersBtn.addEventListener('click', function() {
+            // Reset all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+
+            // Highlight correct answers
+            for (const questionId in correctAnswers) {
+                const correctOption = document.querySelector(`input[name="${questionId}"][value="${correctAnswers[questionId]}"]`);
+
+                if (correctOption) {
+                    correctOption.parentElement.classList.add('correct');
+                }
+            }
+
+            // Hide score if visible
+            scoreContainer.classList.remove('show');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dart & Flutter Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-weight: 700;
+            background: #011627;
+            min-height: 100vh;
+            padding: 20px;
+            color: #e9b103;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(1, 22, 39, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ff0000;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #011627 0%, #032541 100%);
+            color: #e9b103;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #ff0000;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,0,0,0.1) 0%, rgba(255,0,0,0) 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .quiz-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #e9b103;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ff0000;
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #ff0000;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(3, 37, 65, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border-left: 5px solid #ff0000;
+        }
+
+        .question:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.2);
+        }
+
+        .question-text {
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e9b103;
+        }
+
+        .code-block {
+            background: #0a192f;
+            border: 2px solid #ff0000;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: 'CODE';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: #ff0000;
+            opacity: 0.7;
+            font-weight: 700;
+        }
+
+        .code-content {
+            color: #64ffda;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        .code-keyword {
+            color: #c792ea;
+        }
+
+        .code-function {
+            color: #82aaff;
+        }
+
+        .code-string {
+            color: #c3e88d;
+        }
+
+        .code-number {
+            color: #f78c6c;
+        }
+
+        .code-comment {
+            color: #546e7a;
+            font-style: italic;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-radius: 10px;
+            background: rgba(1, 22, 39, 0.6);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            background: rgba(3, 37, 65, 0.8);
+            border-color: #ff0000;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            accent-color: #ff0000;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+            color: #e9b103;
+            font-weight: 700;
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, rgba(146, 208, 80, 0.3) 0%, rgba(146, 208, 80, 0.2) 100%);
+            border-color: #92d050;
+            animation: correctPulse 0.6s ease;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        .option.incorrect {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.3) 0%, rgba(255, 0, 0, 0.2) 100%);
+            border-color: #ff0000;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 15px 35px;
+            border: 2px solid #ff0000;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 0, 0, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        #submitBtn {
+            background: linear-gradient(135deg, #011627 0%, #032541 100%);
+            color: #e9b103;
+        }
+
+        #submitBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(135deg, #032541 0%, #011627 100%);
+        }
+
+        #showAnswersBtn {
+            background: linear-gradient(135deg, #011627 0%, #032541 100%);
+            color: #e9b103;
+        }
+
+        #showAnswersBtn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(255, 0, 0, 0.5);
+            background: linear-gradient(135deg, #032541 0%, #011627 100%);
+        }
+
+        .score-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(1, 22, 39, 0.9) 0%, rgba(3, 37, 65, 0.9) 100%);
+            border-radius: 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #e9b103;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff0000;
+            font-family: 'Fira Code', 'Courier New', monospace;
+        }
+
+        .score-container.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #score {
+            color: #92d050;
+            font-size: 1.6rem;
+            margin: 0 5px;
+            font-weight: 700;
+        }
+
+        #scoreMessage {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(1, 22, 39, 0.6);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #ff0000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #e9b103);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #e9b103;
+            font-size: 0.9rem;
+            border-top: 2px solid #ff0000;
+            opacity: 0.8;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 15px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .question {
+                padding: 20px 15px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .option {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dart & Flutter Quiz</h1>
+            <div class="subtitle">Test your knowledge of Dart programming and Flutter framework</div>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+
+            <div class="quiz-section">
+                <h2 class="section-title">Section 1: Dart Basics</h2>
+
+                <div class="question">
+                    <div class="question-text">1. What does the following Dart code output?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-number">0</span>; i < <span class="code-number">3</span>; i++) {
+    <span class="code-keyword">if</span> (i == <span class="code-number">1</span>) <span class="code-keyword">continue</span>;
+    <span class="code-function">print</span>(i);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="a"> 0 1 2
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="b"> 1 2
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="c"> 0 2
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="d"> 0 1
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. Which of the following is NOT a key feature of Flutter?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="a"> Fast performance on any device
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="b"> Real-time database management
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="c"> Hot Reload for instant updates
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="d"> Cross-platform support
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">3. How many times will the following loop execute?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">int</span> x = <span class="code-number">5</span>;
+<span class="code-keyword">while</span> (x > <span class="code-number">0</span>) {
+    <span class="code-function">print</span>(x);
+    x--;
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="a"> INFINITE LOOP
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="b"> 6 times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="c"> 5 times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="d"> 4 times
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">4. In Dart, what is the purpose of the this keyword?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="a"> To initialize main()
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="b"> To create an anonymous function
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="c"> To refer to the current instance of a class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="d"> To define a new function
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">5. When would you choose to use a while loop over a for loop in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="a"> When the number of iterations depends on a condition evaluated at runtime
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="b"> When you know the exact number of iterations required
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="c"> When you need a loop that executes at least once
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="d"> When the loop needs to iterate through a collection
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">6. Which of the following statements about constructors is FALSE?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="a"> A constructor cannot have a return type.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="b"> Constructors can be parameterized.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="c"> A default no-argument constructor is provided if none is declared.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="d"> Constructors can be declared with the keyword 'function'.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">7. What is the purpose of Hot Reload in Flutter?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q7" value="a"> To update code and see changes instantly without losing state
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="b"> To improve code readability
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="c"> To optimize code for machine learning applications
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="d"> To compile the app faster for production
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">8. What is the purpose of getters and setters in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q8" value="a"> To increase code complexity
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="b"> To simplify the main() function
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="c"> To create instances of a class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="d"> To retrieve and initialize values of class fields
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">9. Which statement about the switch-case in Dart is true?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q9" value="a"> It cannot contain nested switch statements.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="b"> Each case must end with a break statement.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="c"> It can include variables as case values.
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="d"> The default case is mandatory.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">10. Which keyword is used in Dart to define a variable whose value cannot be changed after initialization?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q10" value="a"> static
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="b"> var
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="c"> final
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="d"> dynamic
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h2 class="section-title">Section 2: Dart Advanced Concepts</h2>
+
+                <div class="question">
+                    <div class="question-text">[1] What is the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">int</span> <span class="code-function">add</span>(<span class="code-keyword">int</span> a, <span class="code-keyword">int</span> b) => a + b;
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-function">print</span>(<span class="code-function">add</span>(<span class="code-number">5</span>, <span class="code-number">10</span>));
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q11" value="a"> Syntax Error!
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="b"> 15
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="c"> 5+10
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="d"> 510
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[2] What is a class called that inherits properties from another class in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q12" value="a"> Superclass
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="b"> Parent Class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="c"> Base Class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="d"> Child Class
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[3] What is meant by the overriding method in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q13" value="a"> Using a method from another class without modification
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="b"> Redefining a method in the parent class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="c"> Copying a method from the child class to the parent class
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="d"> Redefining a method in the child class that exists in the parent class
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[4] Which data type in Dart can store key-value pairs?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q14" value="a"> set
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="b"> map
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="c"> list
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="d"> array
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[5] What is Flutter?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q15" value="a"> A hardware-based development tool
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="b"> A web development language
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="c"> An open-source framework by Google for building cross-platform applications
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="d"> A database management system
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[6] Which of the following is true about a final variable in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q16" value="a"> It must be declared with a data type
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="b"> It can be assigned multiple times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="c"> It is initialized at compile time
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="d"> Its value cannot be changed once set
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[7] Which type of inheritance is NOT supported by Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q17" value="a"> Hybrid inheritance
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="b"> Single inheritance
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="c"> Multiple inheritance
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="d"> Multilevel inheritance
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[8] What will be printed by the following Dart code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">int</span> <span class="code-function">myPrice</span>() {
+    <span class="code-keyword">int</span> price = <span class="code-number">100</span>;
+    <span class="code-keyword">return</span> price;
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-function">print</span>(<span class="code-string">"Price: ${myPrice}"</span>);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q18" value="a"> Price:
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="b"> Price:myPrice()
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="c"> Price:100
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="d"> Price:()
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[9] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">int</span> number = <span class="code-number">10</span>;
+    <span class="code-keyword">if</span> (number > <span class="code-number">5</span>) {
+        <span class="code-function">print</span>(<span class="code-string">"Greater than 5"</span>);
+    }
+    <span class="code-keyword">else</span> {
+        <span class="code-function">print</span>(<span class="code-string">"Less than or equal to 5"</span>);
+    }
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q19" value="a"> No output
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="b"> Greater than 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="c"> Less than or equal to 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="d"> 5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[10] What will be the output of the following Dart code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">for</span>(<span class="code-keyword">int</span> i=<span class="code-number">0</span>;i<<span class="code-number">3</span>;i++) {
+        <span class="code-function">print</span>(i);
+    }
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q20" value="a"> 321
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="b"> 012
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="c"> 0123
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="d"> 123
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[11] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Rectangle</span>{
+    <span class="code-keyword">final</span> <span class="code-keyword">double</span> width;
+    <span class="code-keyword">final</span> <span class="code-keyword">double</span> height;
+    <span class="code-function">Rectangle</span>(<span class="code-keyword">this</span>.width,<span class="code-keyword">this</span>.height);
+    <span class="code-keyword">double</span> <span class="code-keyword">get</span> area => width * height;
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>(){
+    <span class="code-keyword">var</span> rect = <span class="code-function">Rectangle</span>(<span class="code-number">5</span>,<span class="code-number">10</span>);
+    <span class="code-function">print</span>(<span class="code-string">"Area:$(rect.area)"</span>);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q21" value="a"> Syntax Error!
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q21" value="b"> Area:15
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q21" value="c"> Area:50
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q21" value="d"> Area:5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[12] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>(){
+    <span class="code-keyword">for</span>(<span class="code-keyword">int</span> i=<span class="code-number">0</span>;i<<span class="code-number">5</span>;i++)
+        <span class="code-keyword">if</span>(i == <span class="code-number">3</span>){
+            <span class="code-keyword">break</span>;
+        }
+    <span class="code-function">print</span>(i);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q22" value="a"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q22" value="b"> 012
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q22" value="c"> 012 4
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q22" value="d"> 1245
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[13] Which of the following is NOT a feature of Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q23" value="a"> C-style syntax
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q23" value="b"> Object-oriented language
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q23" value="c"> Garbage collection
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q23" value="d"> Used only for mobile development
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[14] Which symbol in Dart is used to define a concise function with a single expression?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q24" value="a"> ->
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q24" value="b"> ;
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q24" value="c"> =>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q24" value="d"> ;
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[15] Given the following code, what will be the output?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Parent</span>{
+    <span class="code-keyword">static</span> <span class="code-keyword">int</span> count = <span class="code-number">0</span>;
+    <span class="code-function">Parent</span>() {
+        count++;
+    }
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    Parent p1 = <span class="code-function">Parent</span>();
+    Parent p2 = <span class="code-function">Parent</span>();
+    <span class="code-function">print</span>(Parent.count);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q25" value="a"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q25" value="b"> 0
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q25" value="c"> 1
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q25" value="d"> 2
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[16] In Dart, which keyword is used to skip the current iteration and proceed to the next iteration of a loop?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q26" value="a"> break
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="b"> next
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="c"> continue
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q26" value="d"> skip
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[17] Which of the following describes a key feature of Flutter's cross-platform capabilities?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q27" value="a"> It requires a separate codebase for desktop and mobile
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="b"> It allows for platform-specific code for each device
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="c"> It supports a single codebase for multiple platforms
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q27" value="d"> It only works with Android and iOS
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[18] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>(){
+    <span class="code-keyword">for</span>(<span class="code-keyword">int</span> i=<span class="code-number">1</span>;i<<span class="code-number">=5</span>;i++)
+        <span class="code-keyword">if</span>(i == <span class="code-number">3</span>){
+            <span class="code-keyword">continue</span>;
+        }
+    <span class="code-function">print</span>(i);
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q28" value="a"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="b"> 1 2 4
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="c"> 0 1 2 4 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q28" value="d"> 1 2 4 5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[19] Given the following code, what will be the output?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Base</span>{
+    <span class="code-keyword">void</span> <span class="code-function">display</span>() {
+        <span class="code-function">print</span>(<span class="code-string">"Base display"</span>);
+    }
+}
+<span class="code-keyword">class</span> <span class="code-function">Derived</span> <span class="code-keyword">extends</span> Base{
+    <span class="code-keyword">void</span> <span class="code-function">display</span>() {
+        <span class="code-keyword">super</span>.<span class="code-function">display</span>();
+        <span class="code-function">print</span>(<span class="code-string">"Derived display"</span>);
+    }
+}
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    Derived obj = <span class="code-function">Derived</span>();
+    obj.<span class="code-function">display</span>();
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q29" value="a"> No output
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q29" value="b"> Base display
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q29" value="c"> Derived display
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q29" value="d"> Base display Derived Display
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">[20] What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">class</span> <span class="code-function">Animal</span>{
+    <span class="code-keyword">void</span> <span class="code-function">sound</span>(){
+        <span class="code-function">print</span>(<span class="code-string">"Animal makes a sound"</span>);
+    }
+}
+
+<span class="code-keyword">class</span> <span class="code-function">Dog</span> <span class="code-keyword">extends</span> Animal{
+    <span class="code-keyword">void</span> <span class="code-function">sound</span>(){
+        <span class="code-function">print</span>(<span class="code-string">"Dog barks"</span>);
+    }
+}
+
+<span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    Dog dog = <span class="code-function">Dog</span>();
+    dog.<span class="code-function">sound</span>();
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q30" value="a"> No output
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q30" value="b"> Dog barks
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q30" value="c"> Animal makes a sound
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q30" value="d"> Animal makes a sound
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h2 class="section-title">Section 3: Dart Functions & Loops</h2>
+
+                <div class="question">
+                    <div class="question-text">1. Which part of a function defines the output's data type?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q31" value="a"> Return type
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q31" value="b"> Function name
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q31" value="c"> Argument list
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q31" value="d"> Input type
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">2. Which of the following supports conditional statements?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q32" value="a"> Methods
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q32" value="b"> Switch-case
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q32" value="c"> Loops
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q32" value="d"> Variables
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">3. Can constructors of the parent class be inherited in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q33" value="a"> Only static constructors can be inherited
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q33" value="b"> Only if declared as public
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q33" value="c"> No, they cannot be inherited
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q33" value="d"> Yes, always
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">4. What is the default case in a switch statement used for?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q34" value="a"> Repeat execution
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q34" value="b"> Execute code if no cases match
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q34" value="c"> To handle errors
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q34" value="d"> Exit the program
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">5. Which of the following is true about a final variable in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q35" value="a"> It can be assigned multiple times
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q35" value="b"> It must be declared with a data type
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q35" value="c"> Its value cannot be changed once set
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q35" value="d"> It is initialized at compile time
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">6. In Dart, which keyword is used to skip the current iteration and proceed to the next iteration of a loop?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q36" value="a"> next
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q36" value="b"> continue
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q36" value="c"> skip
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q36" value="d"> break
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">7. What will be the output of the following code?</div>
+                    <div class="code-block">
+                        <div class="code-content"><span class="code-keyword">void</span> <span class="code-function">main</span>() {
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-number">1</span>; i <= <span class="code-number">5</span>; i++) {
+        <span class="code-keyword">if</span> (i == <span class="code-number">3</span>) {
+            <span class="code-keyword">continue</span>;
+        }
+        <span class="code-function">print</span>(i);
+    }
+}</div>
+                    </div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q37" value="a"> 1 2 4
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q37" value="b"> 3
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q37" value="c"> 0 1 2 4 5
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q37" value="d"> 1 2 4 5
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">8. What is the purpose of a getter function in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q38" value="a"> Execute loops
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q38" value="b"> Retrieve a field's value
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q38" value="c"> Modify a field's value
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q38" value="d"> Define constructors
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">9. Which loop in Dart executes at least once, regardless of the condition?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q39" value="a"> for loop
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q39" value="b"> for-each loop
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q39" value="c"> while loop
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q39" value="d"> do-while loop
+                        </label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">10. What keyword is used to define a getter in Dart?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q40" value="a"> get
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q40" value="b"> fetch
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q40" value="c"> return
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q40" value="d"> set
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="submitBtn">Submit Quiz</button>
+                <button id="showAnswersBtn">Show Answers</button>
+            </div>
+
+            <div class="score-container" id="scoreContainer">
+                Your score: <span id="score">0</span>/40
+                <div id="scoreMessage"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © 2024 Dart & Flutter Quiz | Test your programming knowledge
+        </div>
+    </div>
+
+    <script>
+        // Correct answers
+        const correctAnswers = {
+            q1: 'c',  // 0 2
+            q2: 'b',  // Real-time database management
+            q3: 'c',  // 5 times
+            q4: 'c',  // To refer to the current instance of a class
+            q5: 'a',  // When the number of iterations depends on a condition evaluated at runtime
+            q6: 'd',  // Constructors can be declared with the keyword 'function'.
+            q7: 'a',  // To update code and see changes instantly without losing state
+            q8: 'd',  // To retrieve and initialize values of class fields
+            q9: 'c',  // It can include variables as case values.
+            q10: 'c', // final
+            q11: 'b', // 15
+            q12: 'd', // Child Class
+            q13: 'd', // Redefining a method in the child class that exists in the parent class
+            q14: 'b', // map
+            q15: 'c', // An open-source framework by Google for building cross-platform applications
+            q16: 'd', // Its value cannot be changed once set
+            q17: 'c', // Multiple inheritance
+            q18: 'd', // Price:()
+            q19: 'b', // Greater than 5
+            q20: 'b', // 012
+            q21: 'a', // Syntax Error!
+            q22: 'a', // 3
+            q23: 'd', // Used only for mobile development
+            q24: 'c', // =>
+            q25: 'd', // 2
+            q26: 'c', // continue
+            q27: 'c', // It supports a single codebase for multiple platforms
+            q28: 'd', // 1 2 4 5
+            q29: 'd', // Base display Derived Display
+            q30: 'b', // Dog barks
+            q31: 'a', // Return type
+            q32: 'b', // Switch-case
+            q33: 'c', // No, they cannot be inherited
+            q34: 'b', // Execute code if no cases match
+            q35: 'c', // Its value cannot be changed once set
+            q36: 'b', // continue
+            q37: 'd', // 1 2 4 5
+            q38: 'b', // Retrieve a field's value
+            q39: 'd', // do-while loop
+            q40: 'a'  // get
+        };
+
+        // Get DOM elements
+        const submitBtn = document.getElementById('submitBtn');
+        const showAnswersBtn = document.getElementById('showAnswersBtn');
+        const scoreContainer = document.getElementById('scoreContainer');
+        const scoreElement = document.getElementById('score');
+        const scoreMessage = document.getElementById('scoreMessage');
+        const progressBar = document.getElementById('progressBar');
+
+        // Track answered questions
+        let answeredQuestions = new Set();
+
+        // Update progress bar when an option is selected
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', function() {
+                answeredQuestions.add(this.name);
+                updateProgressBar();
+            });
+        });
+
+        function updateProgressBar() {
+            const totalQuestions = Object.keys(correctAnswers).length;
+            const progress = (answeredQuestions.size / totalQuestions) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        // Submit button event listener
+        submitBtn.addEventListener('click', function() {
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+
+            // Reset all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+
+            // Check each question
+            for (const questionId in correctAnswers) {
+                const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+
+                if (selectedOption) {
+                    const selectedValue = selectedOption.value;
+                    const optionElement = selectedOption.parentElement;
+
+                    if (selectedValue === correctAnswers[questionId]) {
+                        optionElement.classList.add('correct');
+                        score++;
+                    } else {
+                        optionElement.classList.add('incorrect');
+                    }
+                }
+            }
+
+            // Show score with message
+            scoreElement.textContent = score;
+            scoreContainer.classList.add('show');
+
+            // Add motivational message based on score
+            const percentage = (score / totalQuestions) * 100;
+            if (percentage >= 90) {
+                scoreMessage.textContent = "🏆 Excellent! You're a Dart & Flutter expert!";
+                scoreMessage.style.color = '#92d050';
+            } else if (percentage >= 70) {
+                scoreMessage.textContent = "👏 Great job! You have good knowledge!";
+                scoreMessage.style.color = '#e9b103';
+            } else if (percentage >= 50) {
+                scoreMessage.textContent = "👍 Good effort! Keep practicing!";
+                scoreMessage.style.color = '#ff9900';
+            } else {
+                scoreMessage.textContent = "📚 Keep learning! You'll get better!";
+                scoreMessage.style.color = '#ff0000';
+            }
+
+            // Scroll to score
+            scoreContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        // Show Answers button event listener
+        showAnswersBtn.addEventListener('click', function() {
+            // Reset all options
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+
+            // Highlight correct answers
+            for (const questionId in correctAnswers) {
+                const correctOption = document.querySelector(`input[name="${questionId}"][value="${correctAnswers[questionId]}"]`);
+
+                if (correctOption) {
+                    correctOption.parentElement.classList.add('correct');
+                }
+            }
+
+            // Hide score if visible
+            scoreContainer.classList.remove('show');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Add ripple effect to buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+                ripple.classList.add('ripple');
+
+                this.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
+            });
+        });
+    </script>
+</body>
+</html>
