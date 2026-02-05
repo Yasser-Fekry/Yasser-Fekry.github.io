@@ -508,8 +508,8 @@ function checkMobileDevice() {
 
         warningDiv.innerHTML = `
             <i class="fas fa-desktop" style="font-size: 4rem; color: #6131df; margin-bottom: 20px;"></i>
-            <h1 style="color: #ffffff; font-size: 2rem; margin-bottom: 10px;">This is Only for Desktop</h1>
-            <p style="font-size: 1.1rem; color: #cfcfe0;">Please access this site from a desktop computer.</p>
+            <h1 style="color: #ffffff; font-size: 2rem; margin-bottom: 10px;">Sorry , We do not support mobile view yet.</h1>
+            <p style="font-size: 1.1rem; color: #cfcfe0;">Please feel free to use desktop application</p>
         `;
 
         document.body.appendChild(warningDiv);
