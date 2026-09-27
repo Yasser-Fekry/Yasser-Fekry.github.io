@@ -1,0 +1,4 @@
+@media (max-width: 720px) {
+  .section { padding: 56px 0; }
+  .terminal { max-width: 100%; }
+}

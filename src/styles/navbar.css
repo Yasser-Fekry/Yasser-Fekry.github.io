@@ -1,0 +1,115 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.125rem 1.5rem;
+  background-color: hsl(220 18% 9% / 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line, #222);
+}
+
+.nav-brand {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text, #fff);
+  text-decoration: none;
+}
+
+.nav-brand .prompt {
+  color: var(--accent, #eab308);
+}
+
+/* Base Desktop Layout */
+.nav-links-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav-links a {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875rem;
+  color: var(--text-dim, #a1a1aa);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a::before {
+  content: "/";
+  color: var(--accent-dim, #854d0e);
+  margin-right: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible,
+.nav-links a.active {
+  color: var(--accent, #eab308);
+  outline: none;
+}
+
+.nav-links a:hover::before,
+.nav-links a:focus-visible::before,
+.nav-links a.active::before {
+  color: var(--accent, #eab308);
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  color: var(--text, #fff);
+  cursor: pointer;
+  border-radius: var(--radius, 4px);
+}
+
+/* Mobile View Adjustments (<= 720px) */
+@media (max-width: 720px) {
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    background-color: var(--panel, #121316);
+    border-bottom: 1px solid var(--line, #222);
+
+    /* Grid transition trick */
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.3s;
+    visibility: hidden;
+  }
+
+  .nav-links.open {
+    grid-template-rows: 1fr;
+    visibility: visible;
+  }
+
+  .nav-links-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: 0; /* Required for grid 0fr transition */
+    overflow: hidden;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 0.875rem 1.5rem;
+    border-top: 1px solid var(--line, #222);
+  }
+}
