@@ -1,0 +1,212 @@
+/* ==========================================================================
+   Stats Section - Obsidian Security Bento
+   Same tokens and look as the Hero section.
+   NOTE: .bento-card is already defined in your hero CSS. If Stats loads on a
+   page where the hero CSS is not loaded, copy the ".bento-card" block over.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   Local tokens
+   ========================================================================== */
+
+.stats-section {
+  --_gap: 1.25rem;
+  --_accent-glow: color-mix(in srgb, var(--accent, #22c55e) 45%, transparent);
+  --_accent-soft: color-mix(in srgb, var(--accent, #22c55e) 8%, transparent);
+  --_divider: var(--glass-line, rgb(255 255 255 / 0.08));
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* small top gap only, same as the gap between hero cards */
+  padding-top: var(--_gap);
+  padding-bottom: clamp(40px, 8vw, 80px);
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* remove the hero's big bottom padding when Stats comes right after it */
+.hero-section:has(+ .stats-section) {
+  padding-bottom: 0;
+}
+
+/* ==========================================================================
+   Card (extends .bento-card from the hero)
+   ========================================================================== */
+
+.stats-card {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--_gap);
+
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+}
+
+
+/* ==========================================================================
+   Stat Item
+   ========================================================================== */
+
+.stat-item {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  /* vertical divider between columns */
+  padding-left: clamp(0.75rem, 2vw, 1.5rem);
+  border-left: 1px solid var(--_divider);
+
+  transition: border-color 0.3s var(--ease, ease);
+}
+
+.stat-item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+
+/* Icon */
+
+.stat-icon {
+  color: var(--accent);
+  filter: drop-shadow(0 0 6px var(--_accent-glow));
+
+  transition:
+    transform 0.3s var(--ease, ease),
+    filter 0.3s var(--ease, ease);
+}
+
+
+/* Number */
+
+.stat-number {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+
+  color: var(--heading);
+
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+
+  text-shadow: 0 0 20px rgb(255 255 255 / 0.04);
+}
+
+.stat-plus {
+  color: var(--accent-secondary);
+  font-size: 0.75em;
+  font-weight: 400;
+}
+
+
+/* Label */
+
+.stat-label {
+  margin: 0;
+
+  color: var(--text-dim);
+
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+
+  text-wrap: balance;
+}
+
+
+/* Hover: only on real hover devices */
+
+@media (hover: hover) {
+  .stat-item:hover {
+    border-color: var(--accent);
+  }
+
+  .stat-item:hover .stat-icon {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 0 10px var(--_accent-glow));
+  }
+}
+
+
+/* Screen reader only text */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+
+/* ==========================================================================
+   Responsive - Tablet
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .stats-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 2.5rem;
+  }
+
+  /* reset dividers: only the 2nd column keeps its left border */
+  .stat-item,
+  .stat-item:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .stat-item:nth-child(even) {
+    padding-left: clamp(0.75rem, 3vw, 1.5rem);
+    border-left: 1px solid var(--_divider);
+  }
+}
+
+
+/* ==========================================================================
+   Responsive - Mobile
+   ========================================================================== */
+
+@media (max-width: 500px) {
+  .stats-section {
+    --_gap: 1rem;
+    padding-block: 16px;
+  }
+
+  .stats-card {
+    padding: 1.5rem 1.25rem;
+    border-radius: 10px;
+  }
+
+  .stat-number {
+    gap: 0.5rem;
+  }
+}
+
+
+/* ==========================================================================
+   Accessibility - Reduced Motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-item,
+  .stat-icon {
+    transition-duration: 0.01ms;
+  }
+
+  .stat-item:hover .stat-icon {
+    transform: none;
+  }
+}

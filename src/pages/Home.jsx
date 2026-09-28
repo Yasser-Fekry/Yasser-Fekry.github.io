@@ -13,9 +13,9 @@ function Home() {
   return (
     <>
       <Hero />
-      {/* <Stats /> */}
+      <Stats />
+      <Expertise />
       {/* <About /> */}
-      {/* <Expertise /> */}
       {/* <Arsenal /> */}
       {/* <Certifications /> */}
       {/* <TrustedCompanies /> */}

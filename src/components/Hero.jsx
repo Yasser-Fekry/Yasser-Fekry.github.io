@@ -39,11 +39,9 @@ const TECH_STACK = [
   // Web
   { id: 'html5', title: 'HTML5', icon: <FaHtml5 /> },
   { id: 'css3', title: 'CSS3', icon: <FaCss3Alt /> },
-
   // Linux & OS
   { id: 'linux', title: 'Linux', icon: <FaLinux /> },
   { id: 'kalilinux', title: 'Kali Linux', icon: <SiKalilinux /> },
-
   // Security
   { id: 'burpsuite', title: 'Burp Suite', icon: <SiBurpsuite /> },
   { id: 'nmap', title: 'Nmap', icon: <span>NMAP</span>, isTextIcon: true },
@@ -51,11 +49,9 @@ const TECH_STACK = [
   { id: 'owasp', title: 'OWASP', icon: <SiOwasp /> },
   { id: 'graphql', title: 'GraphQL', icon: <SiGraphql /> },
   { id: 'metasploit', title: 'Metasploit', icon: <span>MSF</span>, isTextIcon: true },
-
   // Tools & DevOps
   { id: 'postman', title: 'Postman', icon: <SiPostman /> },
   { id: 'docker', title: 'Docker', icon: <FaDocker /> },
-
   // Version Control
   { id: 'git', title: 'Git', icon: <FaGitAlt /> },
   { id: 'github', title: 'GitHub', icon: <FaGithub /> },
@@ -130,7 +126,7 @@ const Hero = () => {
           <h1 className="hero-title">
             a <span className="highlight-green">{'{Security Researcher}'}</span> and
             <br />
-            Bug Hunter <span className="blinking-cursor">|</span>
+            Bug Hunter <span className="blinking-cursor">..</span>
           </h1>
 
           <div className="code-tag-p">
