@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import "../styles/navbar.css";
 
 const NAV_LINKS = [
@@ -11,12 +11,33 @@ const NAV_LINKS = [
   { to: "/contact", label: "contact" },
 ];
 
+const getInitialTheme = () => {
+  if (typeof window === "undefined") return "dark";
+  try {
+    return localStorage.getItem("theme") || "dark";
+  } catch {
+    return "dark";
+  }
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [theme, setTheme] = useState(getInitialTheme);
   const { pathname } = useLocation();
 
   const closeMenu = useCallback(() => setIsOpen(false), []);
   const toggleMenu = () => setIsOpen((prev) => !prev);
+  const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+
+  // Apply + save the theme
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      /* storage unavailable */
+    }
+  }, [theme]);
 
   useEffect(() => {
     closeMenu();
@@ -44,10 +65,6 @@ export default function Navbar() {
 
   return (
     <nav className="navbar" aria-label="Main navigation">
-      <Link to="/" className="nav-brand" onClick={closeMenu}>
-        <span className="prompt">yasser@security</span>
-      </Link>
-
       <button
         type="button"
         className="nav-toggle"
@@ -59,7 +76,6 @@ export default function Navbar() {
         {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
       </button>
 
-      {/* Removed aria-hidden so desktop links stay accessible to screen readers */}
       <div id="nav-menu" className={`nav-links ${isOpen ? "open" : ""}`}>
         <div className="nav-links-inner">
           {NAV_LINKS.map(({ to, label }) => {
@@ -75,6 +91,16 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
+          >
+            {theme === "dark" ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+          </button>
         </div>
       </div>
     </nav>
