@@ -1,11 +1,8 @@
 /* ==========================================================================
-   Hero Section - Obsidian Security Bento (v3: bigger type, tighter gap)
-   Same class names as before, so your HTML does not need to change.
+   Hero Section - Obsidian Security Bento
    ========================================================================== */
 
-/* ==========================================================================
-   Local tokens
-   ========================================================================== */
+/* ---------- Local tokens ---------- */
 
 .hero-section {
   --_gap: 1.25rem;
@@ -24,8 +21,7 @@
   padding-inline: clamp(1rem, 4vw, 2rem);
 }
 
-/* FIX: when Stats comes right after the hero, remove the hero's bottom
-   padding so the gap equals the normal card gap (--_gap) instead of ~120px. */
+/* when Stats follows the hero, remove bottom padding so the gap = card gap */
 .hero-section:has(+ .stats-section) {
   padding-bottom: 0;
 }
@@ -66,8 +62,7 @@
   }
 }
 
-/* Technical Grid */
-
+/* Technical grid */
 .bento-card::before {
   content: "";
 
@@ -96,7 +91,7 @@
 
   color: var(--heading);
 
-  font-size: clamp(1rem, 1.8vw, 1.35rem);   /* was 0.85 - 1.1rem */
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.035em;
@@ -120,8 +115,6 @@
   border-radius: 4px;
 }
 
-/* Code Brackets */
-
 .code-bracket {
   color: var(--accent-secondary);
 }
@@ -138,7 +131,7 @@
   flex-direction: column;
   justify-content: center;
 
-  min-height: 340px;   /* was 300px */
+  min-height: 340px;
 }
 
 
@@ -154,7 +147,7 @@
   color: var(--accent-secondary);
 
   font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
-  font-size: 0.95rem;   /* was 0.85rem */
+  font-size: 0.95rem;
 }
 
 .code-tag {
@@ -179,7 +172,7 @@
 
   color: var(--heading);
 
-  font-size: clamp(1.75rem, 3.6vw, 2.6rem);   /* was 1.35 - 1.9rem */
+  font-size: clamp(1.75rem, 3.6vw, 2.6rem);
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -191,8 +184,6 @@
   color: var(--accent);
   font-weight: 700;
 }
-
-/* Blinking Cursor */
 
 .blinking-cursor {
   color: var(--accent-secondary);
@@ -216,7 +207,7 @@
   color: var(--text-dim);
 
   font-family: var(--font-body, inherit);
-  font-size: 1.05rem;   /* was 0.95rem */
+  font-size: 1.05rem;
   line-height: 1.75;
 
   text-wrap: pretty;
@@ -229,22 +220,23 @@
 
 
 /* ==========================================================================
-   Profile Card
+   Profile Card  (picture on top, quote below)
    ========================================================================== */
 
 .bento-profile {
   grid-column: span 4;
 
   display: flex;
+  flex-direction: column;   /* picture first, quote under it */
   align-items: center;
   justify-content: center;
+  gap: 2rem;
 
-  min-height: 340px;   /* was 300px */
+  min-height: 340px;
   padding: 2rem;
 }
 
-/* Ambient Green Glow */
-
+/* Ambient green glow */
 .bento-profile::after {
   content: "";
 
@@ -265,9 +257,7 @@
 }
 
 
-/* ==========================================================================
-   Profile Frame
-   ========================================================================== */
+/* ---------- Profile frame ---------- */
 
 .profile-avatar-glow {
   position: relative;
@@ -276,7 +266,7 @@
   align-items: center;
   justify-content: center;
 
-  width: min(100%, 220px);   /* was 190px */
+  width: min(100%, 220px);
   aspect-ratio: 4 / 5;
 
   padding: 5px;
@@ -293,8 +283,7 @@
     box-shadow 0.35s var(--ease, ease);
 }
 
-/* Cyan Top Line */
-
+/* Cyan top line */
 .profile-avatar-glow::before {
   content: "";
 
@@ -310,8 +299,7 @@
   box-shadow: 0 0 12px var(--_cyan-glow);
 }
 
-/* Green Side Line */
-
+/* Green side line */
 .profile-avatar-glow::after {
   content: "";
 
@@ -328,9 +316,7 @@
 }
 
 
-/* ==========================================================================
-   Profile Image
-   ========================================================================== */
+/* ---------- Profile image ---------- */
 
 .author-img {
   position: relative;
@@ -355,9 +341,7 @@
 }
 
 
-/* ==========================================================================
-   Profile Badge
-   ========================================================================== */
+/* ---------- Profile badge ---------- */
 
 .profile-badge {
   position: absolute;
@@ -369,7 +353,7 @@
   align-items: center;
   justify-content: center;
 
-  width: 56px;    /* was 52px */
+  width: 56px;
   height: 56px;
 
   background: var(--panel);
@@ -390,8 +374,7 @@
     border-color 0.3s var(--ease, ease);
 }
 
-/* Online Status */
-
+/* Online status dot */
 .profile-badge::before {
   content: "";
 
@@ -406,6 +389,61 @@
   background: var(--accent);
   box-shadow: 0 0 8px var(--_accent-glow);
 }
+
+
+/* ---------- Quote under the picture ---------- */
+
+.hero-quote {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+
+  margin: 0;
+}
+
+.hero-quote__mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+
+  color: var(--accent);
+}
+
+.hero-quote__bars {
+  display: flex;
+  gap: 4px;
+}
+
+.hero-quote__bars i {
+  width: 5px;
+  height: 24px;
+
+  border-radius: 1px;
+  background: currentColor;
+}
+
+/* .bento-profile prefix beats the global `p { max-width; color }` rule */
+.bento-profile .hero-quote__text {
+  max-width: none;
+  margin: 0;
+
+  color: var(--heading);
+
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;   /* keep the words on one line */
+}
+
 
 @media (hover: hover) {
   .bento-profile:hover .profile-avatar-glow {
@@ -451,7 +489,7 @@
   color: var(--accent-secondary);
 
   font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
-  font-size: 0.9rem;   /* was 0.8rem */
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.08em;
 
@@ -471,9 +509,7 @@
   mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
 }
 
-/* Needs two identical .tech-items groups for the -50% loop to be seamless.
-   Mark the second copy aria-hidden="true". */
-
+/* Needs two identical .tech-items groups for a seamless -50% loop */
 .tech-track {
   display: flex;
   width: max-content;
@@ -498,16 +534,14 @@
 }
 
 
-/* ==========================================================================
-   Tech Stack Item
-   ========================================================================== */
+/* ---------- Tech stack item ---------- */
 
 .stack-item {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 52px;    /* was 46px */
+  width: 52px;
   height: 52px;
 
   flex-shrink: 0;
@@ -518,7 +552,7 @@
   border-radius: var(--_radius-inner);
 
   color: var(--text);
-  font-size: 1.3rem;   /* was 1.15rem */
+  font-size: 1.3rem;
 
   transition:
     transform 0.25s var(--ease, ease),
@@ -547,21 +581,15 @@
   outline-offset: 2px;
 }
 
-/* Text Based Security Tools */
-
+/* Text based security tools */
 .text-icon {
   color: var(--text);
 
   font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
-  font-size: 0.7rem;   /* was 0.62rem */
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
-
-
-/* ==========================================================================
-   Infinite Marquee Animation
-   ========================================================================== */
 
 @keyframes tech-scroll {
   to {
@@ -630,6 +658,7 @@
   .bento-profile {
     min-height: 250px;
     padding: 1.5rem;
+    gap: 1.5rem;
   }
 
   .profile-avatar-glow {
@@ -714,4 +743,54 @@
   .stack-item:hover {
     transform: none;
   }
+
+  /* ==========================================================================
+   Quote Animation
+   ========================================================================== */
+
+@keyframes quoteSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.hero-quote__text {
+  max-width: 22ch;
+  margin: 0;
+
+  color: var(--heading);
+
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: left;
+
+  /* Smooth entrance animation */
+  animation: quoteSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Pulse effect on quote mark */
+.hero-quote__mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+
+  color: var(--accent);
+  transition: color 0.3s ease;
+}
+
+.bento-profile:hover .hero-quote__mark {
+  color: var(--accent-secondary);
+}
 }

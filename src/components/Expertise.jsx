@@ -43,10 +43,7 @@ export default function Expertise() {
       <div className="expertise-bento">
         <div className="bento-card expertise-card">
           <header className="expertise-header">
-            <p className="expertise-eyebrow">
-              <span className="expertise-dot" aria-hidden="true" />
-                {/* hello */}
-            </p>
+            
 
             <h2 id="expertise-title" className="expertise-title">
 

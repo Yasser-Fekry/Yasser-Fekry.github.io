@@ -1,14 +1,19 @@
-import ContactSection from "../components/Contact";
+import { Helmet } from "react-helmet-async";
+import Contact from "../components/Contact";
 
-function Contact() {
+function ContactPage() {
   return (
     <>
-      <section className="container section">
-        <h1>Contact Me</h1>
-      </section>
-      <ContactSection />
+      <Helmet>
+        <title>Contact | Yasser Fekry</title>
+        <meta
+          name="description"
+          content="Get in touch with Yasser Fekry for bug bounty, security testing, and technical consulting."
+        />
+      </Helmet>
+      <Contact />
     </>
   );
 }
 
-export default Contact;
+export default ContactPage;

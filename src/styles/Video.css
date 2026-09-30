@@ -1,0 +1,75 @@
+.video-page {
+  min-height: calc(100vh - 80px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 3rem 1.5rem;
+}
+
+.video-content {
+  text-align: center;
+}
+
+.video-eyebrow {
+  margin: 0 0 0.75rem;
+
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  color: var(--text-dim);
+}
+
+.video-title {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  font-weight: 600;
+
+  line-height: 1;
+  letter-spacing: -0.04em;
+
+  color: var(--heading);
+}
+
+.video-title span {
+  color: var(--accent);
+}
+
+.video-description {
+  max-width: 42ch;
+
+  margin: 1rem auto 0;
+
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+
+  color: var(--text-dim);
+}
+
+.video-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  margin-top: 1.5rem;
+
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+
+  color: var(--text-dim);
+}
+
+.video-status-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+}

@@ -1,68 +1,471 @@
-.blog-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
+/* ==========================================================================
+   Blog / Markdown Content
+   --------------------------------------------------------------------------
+   Styles for rendered Markdown content.
+   Uses the global theme variables so dark/light themes work automatically.
+   ========================================================================== */
 
-.blog-card {
-  display: block;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--ink);
-}
+@layer components {
+  /* ------------------------------------------------------------------------
+     Base
+     ------------------------------------------------------------------------ */
 
-.blog-card:hover .blog-card__title {
-  color: var(--crimson);
-}
+  .blog-content {
+    color: var(--text);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+  }
 
-.blog-card__top {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--ink-soft);
-}
+  /* Vertical rhythm */
+  .blog-content > * + * {
+    margin-block-start: 1.25em;
+  }
 
-.blog-card__title {
-  font-size: 1.25rem;
-  margin: 0 0 0.4em;
-}
+  /* Avoid inherited global content-width restrictions */
+  .blog-content p,
+  .blog-content li {
+    max-width: none;
+  }
 
-.blog-card__excerpt {
-  color: var(--ink-soft);
-  margin: 0;
-}
+  .blog-content p {
+    margin-block: 0;
+  }
 
-.post__meta {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  color: var(--ink-soft);
-}
+  /* ------------------------------------------------------------------------
+     Headings
+     ------------------------------------------------------------------------ */
 
-.post__body {
-  white-space: pre-wrap;
-  font-family: var(--serif);
-  line-height: 1.75;
-}
+  .blog-content :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--heading, var(--text));
+    font-family: var(--font-sans, inherit);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    scroll-margin-block-start: 5rem;
+    text-wrap: balance;
+  }
 
-.post__body code,
-.post__body pre {
-  font-family: var(--mono);
-  background: var(--paper-raised);
-  border: 1px solid var(--line);
-}
+  .blog-content h1 {
+    margin-block-start: 2.5em;
+    font-size: clamp(1.8rem, 3vw, 2.25rem);
+  }
 
-.post__body pre {
-  padding: 1rem;
-  overflow-x: auto;
-}
+  .blog-content h2 {
+    margin-block-start: 2.5em;
+    padding-block-end: 0.45em;
+    font-size: clamp(1.45rem, 2.5vw, 1.7rem);
+    border-block-end: 1px solid var(--line);
+  }
 
-.post__not-found {
-  color: var(--ink-soft);
+  .blog-content h3 {
+    margin-block-start: 2em;
+    font-size: clamp(1.2rem, 2vw, 1.35rem);
+  }
+
+  .blog-content h4 {
+    margin-block-start: 1.75em;
+    font-size: 1.1rem;
+  }
+
+  .blog-content h5 {
+    font-size: 1rem;
+  }
+
+  .blog-content h6 {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+  }
+
+  /* First heading shouldn't create unnecessary space */
+  .blog-content > :is(h1, h2, h3, h4, h5, h6):first-child {
+    margin-block-start: 0;
+  }
+
+  /* ------------------------------------------------------------------------
+     Links
+     ------------------------------------------------------------------------ */
+
+  .blog-content a {
+    color: var(--accent-text, var(--accent));
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.2em;
+    transition:
+      color 150ms ease,
+      text-decoration-thickness 150ms ease;
+  }
+
+  .blog-content a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .blog-content a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ------------------------------------------------------------------------
+     Lists
+     ------------------------------------------------------------------------ */
+
+  .blog-content :is(ul, ol) {
+    padding-inline-start: 1.7em;
+  }
+
+  .blog-content ul {
+    list-style: disc;
+  }
+
+  .blog-content ol {
+    list-style: decimal;
+  }
+
+  .blog-content li {
+    padding-inline-start: 0.3em;
+  }
+
+  .blog-content li + li {
+    margin-block-start: 0.45em;
+  }
+
+  .blog-content li::marker {
+    color: var(--accent-text, var(--accent));
+    font-weight: 600;
+  }
+
+  /* Nested lists */
+  .blog-content li > :is(ul, ol) {
+    margin-block-start: 0.45em;
+  }
+
+  .blog-content ul ul {
+    list-style-type: circle;
+  }
+
+  .blog-content ul ul ul {
+    list-style-type: square;
+  }
+
+  /* Task lists */
+  .blog-content ul:has(> li > input[type='checkbox']) {
+    padding-inline-start: 0;
+    list-style: none;
+  }
+
+  .blog-content li:has(> input[type='checkbox']) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55em;
+    padding-inline-start: 0;
+  }
+
+  .blog-content li > input[type='checkbox'] {
+    flex: 0 0 auto;
+    margin-block-start: 0.4em;
+    accent-color: var(--accent);
+  }
+
+  /* ------------------------------------------------------------------------
+     Blockquotes
+     ------------------------------------------------------------------------ */
+
+  .blog-content blockquote {
+    margin-block: 1.75em;
+    padding-block: 0.35em;
+    padding-inline-start: 1.25em;
+    border-inline-start: 3px solid var(--accent);
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .blog-content blockquote > * {
+    margin-block: 0;
+  }
+
+  .blog-content blockquote > * + * {
+    margin-block-start: 0.75em;
+  }
+
+  .blog-content blockquote strong {
+    color: var(--heading, var(--text));
+  }
+
+  /* ------------------------------------------------------------------------
+     Horizontal Rule
+     ------------------------------------------------------------------------ */
+
+  .blog-content hr {
+    margin-block: 2.75em;
+    border: 0;
+    border-block-start: 1px solid var(--line);
+  }
+
+  /* ------------------------------------------------------------------------
+     Inline Code
+     ------------------------------------------------------------------------ */
+
+  .blog-content :not(pre) > code {
+    padding: 0.15em 0.4em;
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    background: var(--surface, color-mix(in srgb, var(--text) 5%, transparent));
+    color: var(--accent-text, var(--accent));
+    font-family: var(--font-mono, monospace);
+    font-size: 0.88em;
+    white-space: break-spaces;
+  }
+
+  /* ------------------------------------------------------------------------
+     Code Blocks
+     ------------------------------------------------------------------------ */
+
+  .blog-content pre {
+    position: relative;
+    margin-block: 1.75em;
+    padding: 1.1rem 1.25rem;
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius, 0.75rem);
+    background: var(--code-bg, var(--surface));
+    color: var(--text);
+    line-height: 1.65;
+    tab-size: 2;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .blog-content pre code {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.875rem;
+    white-space: pre;
+  }
+
+  /* Scrollbar */
+  .blog-content pre::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .blog-content pre::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 999px;
+  }
+
+  /* ------------------------------------------------------------------------
+     Keyboard
+     ------------------------------------------------------------------------ */
+
+  .blog-content kbd {
+    padding: 0.15em 0.45em;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 0.35rem;
+    background: var(--surface);
+    color: var(--heading, var(--text));
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8em;
+    white-space: nowrap;
+  }
+
+  /* ------------------------------------------------------------------------
+     Tables
+     ------------------------------------------------------------------------ */
+
+  .blog-content table {
+    width: 100%;
+    margin-block: 1.75em;
+    border-collapse: collapse;
+    font-size: 0.95em;
+  }
+
+  /* Wrapper generated by Markdown renderer is preferred.
+     If no wrapper exists, allow horizontal scrolling directly. */
+  .blog-content :is(table, .table-wrapper) {
+    max-width: 100%;
+  }
+
+  .blog-content .table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .blog-content th,
+  .blog-content td {
+    padding: 0.7em 0.9em;
+    border-bottom: 1px solid var(--line);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  .blog-content th {
+    color: var(--heading, var(--text));
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .blog-content tbody tr:hover {
+    background: color-mix(
+      in srgb,
+      var(--accent) 4%,
+      transparent
+    );
+  }
+
+  /* ------------------------------------------------------------------------
+     Images
+     ------------------------------------------------------------------------ */
+
+  .blog-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-inline: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius, 0.75rem);
+  }
+
+  .blog-content figure {
+    margin-block: 2em;
+  }
+
+  .blog-content figcaption {
+    margin-block-start: 0.65em;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  /* ------------------------------------------------------------------------
+     Strong / Emphasis
+     ------------------------------------------------------------------------ */
+
+  .blog-content strong {
+    color: var(--heading, var(--text));
+    font-weight: 700;
+  }
+
+  .blog-content em {
+    color: var(--text);
+  }
+
+  .blog-content mark {
+    padding-inline: 0.2em;
+    border-radius: 0.2em;
+    background: color-mix(in srgb, var(--accent) 20%, transparent);
+    color: inherit;
+  }
+
+  /* ------------------------------------------------------------------------
+     Details / Summary
+     ------------------------------------------------------------------------ */
+
+  .blog-content details {
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius, 0.75rem);
+    background: var(--surface);
+  }
+
+  .blog-content summary {
+    cursor: pointer;
+    color: var(--heading, var(--text));
+    font-weight: 600;
+  }
+
+  .blog-content details[open] summary {
+    margin-block-end: 0.75rem;
+  }
+
+  /* ------------------------------------------------------------------------
+     Definition / Misc
+     ------------------------------------------------------------------------ */
+
+  .blog-content sup,
+  .blog-content sub {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.7em;
+    line-height: 0;
+  }
+
+  .blog-content abbr[title] {
+    cursor: help;
+    text-decoration: underline dotted;
+    text-underline-offset: 0.2em;
+  }
+
+  /* ------------------------------------------------------------------------
+     First / Last Element Cleanup
+     ------------------------------------------------------------------------ */
+
+  .blog-content > :first-child {
+    margin-block-start: 0;
+  }
+
+  .blog-content > :last-child {
+    margin-block-end: 0;
+  }
+
+  /* ------------------------------------------------------------------------
+     Mobile
+     ------------------------------------------------------------------------ */
+
+  @media (max-width: 640px) {
+    .blog-content {
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .blog-content h1 {
+      font-size: 1.7rem;
+    }
+
+    .blog-content h2 {
+      font-size: 1.4rem;
+    }
+
+    .blog-content h3 {
+      font-size: 1.2rem;
+    }
+
+    .blog-content pre {
+      margin-inline: -0.25rem;
+      padding: 0.9rem 1rem;
+      border-radius: calc(var(--radius, 0.75rem) * 0.8);
+    }
+
+    .blog-content pre code {
+      font-size: 0.8rem;
+    }
+
+    .blog-content th,
+    .blog-content td {
+      padding: 0.6em 0.7em;
+    }
+
+    .blog-content blockquote {
+      padding-inline-start: 1rem;
+    }
+  }
+
+  /* ------------------------------------------------------------------------
+     Reduced Motion
+     ------------------------------------------------------------------------ */
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-content a {
+      transition: none;
+    }
+  }
 }

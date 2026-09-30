@@ -8,6 +8,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Resume from "./pages/Resume";
 import Contact from "./pages/Contact";
+import Video from './pages/Video';
 
 function App() {
   return (
@@ -17,11 +18,12 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/videos" element={<Video />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/about" element={<About />} /> */}
         </Routes>
       </main>
 

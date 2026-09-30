@@ -1,0 +1,220 @@
+/* Uses the theme variables from global.css (--ink, --line, --accent, ...),
+   so it follows your dark / light theme and Fira Code font automatically. */
+
+/* ---------- Section wrapper (same as Expertise) ---------- */
+.skills-section {
+  --_gap: 1.25rem;
+
+  display: flex;
+  justify-content: center;
+  padding-top: var(--_gap);
+  padding-bottom: clamp(40px, 8vw, 80px);
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+
+/* remove Expertise's bottom padding when Skills follows it */
+.expertise-section:has(+ .skills-section) {
+  padding-bottom: 0;
+}
+
+.skills-bento {
+  width: min(100%, var(--container-max, 1100px));
+}
+
+/* ---------- Card (extends .bento-card) ---------- */
+.skills-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* ---------- Header ---------- */
+.skills-header {
+  text-align: center;
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+}
+
+.skills-section .skills-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: none;
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.skills-eyebrow__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.skills-section .skills-title {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* ---------- Body layout ---------- */
+.skills-body {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.skills-divider {
+  align-self: stretch;
+  min-height: 240px;
+  background: var(--line);
+}
+
+/* ---------- Icon marquee ---------- */
+.skills-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+}
+
+.skills-marquee {
+  overflow: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
+.skills-track {
+  display: flex;
+  gap: 30px;
+  width: max-content;
+  animation: skills-scroll 18s linear infinite;
+}
+
+.skills-track--reverse {
+  animation-direction: reverse;
+}
+
+.skills-marquee:hover .skills-track {
+  animation-play-state: paused;
+}
+
+@keyframes skills-scroll {
+  to {
+    transform: translateX(calc(-50% - 15px));
+  }
+}
+
+.skills-tile {
+  flex: none;
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  color: var(--text); /* used by icons with color: currentColor */
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+
+.skills-tile:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* ---------- Text list ---------- */
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.skills-list li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.skills-list li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.65em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.skills-list strong {
+  font-weight: 500;
+  color: var(--heading);
+}
+
+.skills-list span {
+  color: var(--text-dim);
+}
+
+/* ---------- Decorative circles ---------- */
+.skills-orbit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  pointer-events: none;
+}
+
+.skills-orbit__ring {
+  position: absolute;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+.skills-orbit__ring--1 { width: 350px; height: 350px; top: -158px; right: -158px; }
+.skills-orbit__ring--2 { width: 125px; height: 125px; top: 9px; right: 8px; }
+.skills-orbit__ring--3 { width: 82px; height: 82px; top: 30px; right: 29px; }
+
+.skills-orbit__dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.skills-orbit__dot--1 { top: 75px; right: 28px; }
+.skills-orbit__dot--2 { top: 110px; right: 113px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .skills-body {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .skills-divider { display: none; }
+  .skills-icons { align-items: center; }
+}
+
+@media (max-width: 560px) {
+  .skills-section {
+    --_gap: 1rem;
+    padding-bottom: 30px;
+  }
+
+  .skills-card { padding: 1.25rem; border-radius: 10px; }
+  .skills-tile { width: 64px; height: 64px; }
+  .skills-list { font-size: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-track { animation: none; }
+  .skills-tile { transition-duration: 0.01ms; }
+}

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/hero.css';
 
+import { Quote } from 'lucide-react';
 import {
   FaReact,
   FaPython,
@@ -27,6 +28,12 @@ import {
 /* ============================================================
    Constants & Data
    ============================================================ */
+
+const HERO_QUOTES = [
+  "The Bug is Somewhere",
+  "Think Like the Attacker",
+  "Patch One, Find Two",
+];
 
 const TECH_STACK = [
   // Development
@@ -111,6 +118,12 @@ const TechMarquee = () => {
    ============================================================ */
 
 const Hero = () => {
+  // Pick a random quote when the component mounts / page refreshes
+  const [quote] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * HERO_QUOTES.length);
+    return HERO_QUOTES[randomIndex];
+  });
+
   return (
     <section className="hero-section">
       <div className="hero-bento">
@@ -126,7 +139,7 @@ const Hero = () => {
           <h1 className="hero-title">
             a <span className="highlight-green">{'{Security Researcher}'}</span> and
             <br />
-            Bug Hunter <span className="blinking-cursor">..</span>
+            Bug-Hunter <span className="blinking-cursor">..</span>
           </h1>
 
           <div className="code-tag-p">
@@ -157,6 +170,18 @@ const Hero = () => {
               <span>0X01</span>
             </div>
           </div>
+
+          {/* Dynamic Pull Quote */}
+          <blockquote className="hero-quote">
+            <div className="hero-quote__mark" aria-hidden="true">
+              <Quote size={20} strokeWidth={2.5} />
+              <span className="hero-quote__bars">
+                <i />
+                <i />
+              </span>
+            </div>
+            <p className="hero-quote__text">{quote}</p>
+          </blockquote>
         </div>
 
         {/* Tech Stack Marquee Card */}

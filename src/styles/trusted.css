@@ -1,0 +1,129 @@
+/* Uses theme variables from global.css (--text-dim, --heading, --accent, ...) */
+
+.tc-section {
+  --_gap: 1.25rem;
+
+  display: flex;
+  justify-content: center;
+  padding-top: var(--_gap);
+  padding-bottom: clamp(40px, 8vw, 80px);
+  padding-inline: clamp(1rem, 4vw, 2rem);
+  font-family: var(--font-mono);
+}
+
+/* remove Skills' bottom padding when this section follows it */
+.skills-section:has(+ .tc-section) {
+  padding-bottom: 0;
+}
+
+.tc-bento {
+  width: min(100%, var(--container-max, 1100px));
+}
+
+/* extends .bento-card (same as Expertise / Skills) */
+.tc-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* ---------- Header ---------- */
+.tc-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  text-align: center;
+}
+
+.tc-section .tc-title {
+  margin: 0;
+  color: var(--heading);
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.tc-section .tc-text {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+  line-height: 1.8;
+  text-wrap: balance;
+}
+
+/* ---------- Marquee ---------- */
+.tc-marquee {
+  overflow: hidden;
+  /* soft fade on both edges */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.tc-track {
+  display: flex;
+  width: max-content;
+  animation: tc-scroll 30s linear infinite;
+}
+
+.tc-marquee:hover .tc-track {
+  animation-play-state: paused;
+}
+
+.tc-group {
+  display: flex;
+  flex: none;
+}
+
+@keyframes tc-scroll {
+  to { transform: translateX(-50%); }
+}
+
+.tc-logo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 240px;
+  height: 90px;
+  color: var(--heading);
+  opacity: 0.85;
+  transition: opacity 0.25s var(--ease, ease), transform 0.25s var(--ease, ease);
+}
+
+.tc-logo:hover {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.tc-logo img {
+  width: auto;
+  height: 38px;
+  max-width: 170px;
+  object-fit: contain;
+}
+
+.tc-word {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.tc-word b { font-weight: 800; }
+
+@media (max-width: 560px) {
+  .tc-section { --_gap: 1rem; padding-bottom: 30px; }
+  .tc-card { padding: 1.25rem; border-radius: 10px; }
+  .tc-logo { width: 180px; height: 72px; }
+  .tc-logo img { height: 30px; }
+  .tc-word { font-size: 1.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tc-track { animation: none; }
+  .tc-marquee { overflow-x: auto; }
+}

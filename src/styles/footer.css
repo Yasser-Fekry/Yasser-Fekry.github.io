@@ -1,0 +1,60 @@
+/* Uses theme variables from global.css (--line, --accent, --text-dim, ...) */
+
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 2rem);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+}
+
+.footer-inner {
+  width: min(100%, var(--container-max, 1100px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* ---------- Socials ---------- */
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.footer-social {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  transition:
+    border-color 0.25s var(--ease, ease),
+    background-color 0.25s var(--ease, ease),
+    transform 0.25s var(--ease, ease);
+}
+
+.footer-social:hover,
+.footer-social:focus-visible {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  transform: translateY(-2px);
+}
+
+/* ---------- Copyright ---------- */
+.footer .footer-copy {
+  max-width: none;
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-social {
+    transition-duration: 0.01ms;
+  }
+}

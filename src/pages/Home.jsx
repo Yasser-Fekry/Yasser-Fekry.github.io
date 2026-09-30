@@ -8,6 +8,7 @@ import TrustedCompanies from "../components/TrustedCompanies";
 import RecentBlog from "../components/RecentBlog";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
+import Skills from "../components/skills";
 
 function Home() {
   return (
@@ -15,10 +16,12 @@ function Home() {
       <Hero />
       <Stats />
       <Expertise />
+      <Skills />
+      <TrustedCompanies />
+      
       {/* <About /> */}
       {/* <Arsenal /> */}
       {/* <Certifications /> */}
-      {/* <TrustedCompanies /> */}
       {/* <RecentBlog /> */}
       {/* <Contact /> */}
       {/* <Footer /> */}
