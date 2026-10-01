@@ -16,6 +16,7 @@ function App() {
     <BrowserRouter>
       <Navbar />
 
+
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -24,8 +25,10 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
+
       </main>
 
       <Footer />
