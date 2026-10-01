@@ -1,13 +1,7 @@
-import AboutSection from "../components/About";
+import AboutComponent from "../components/About";
 
 function About() {
-  return (
-    <>
-      <section className="container section">
-      </section>
-      <AboutSection />
-    </>
-  );
+  return <AboutComponent />;
 }
 
 export default About;

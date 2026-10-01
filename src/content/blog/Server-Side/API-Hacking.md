@@ -1,4 +1,4 @@
-![](/src/assets/images/blog/image%20copy.png)
+
 
 
 ## API Hacking
@@ -14,9 +14,8 @@ https://portswigger.net/web-security/api-testing/lab-exploiting-api-endpoint-usi
 `curl -vgw "\n" -X DELETE 'https://0aa8004b034ee1e78179d925004900a1.web-security-academy.net/api/user/carlos' -d '{}'`
 ```
 
-![alt text](../../assets/images/blog/API-Hacking-Labs-1783713585325.webp)
 
----
+
 ### Lab Link
 
 https://portswigger.net/web-security/api-testing/lab-exploiting-unused-api-endpoint

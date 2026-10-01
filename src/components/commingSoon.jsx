@@ -1,16 +1,14 @@
-import '../styles/cmmingsoon.css';
+import '../styles/cmmingsoon.css'
 
-function Videos() {
-return ( <section className="coming-soon"> <div className="coming-soon-content"> <p className="coming-soon-eyebrow">Video</p>
-
+function ComingSoon() {
+return ( <section className="coming-soon"> <div className="coming-soon-content"> <p className="coming-soon-eyebrow">Resume</p>
 
     <h1 className="coming-soon-title">
       Coming <span>Soon.</span>
     </h1>
 
     <p className="coming-soon-description">
-      Security research, tutorials, and technical videos
-      will be available here soon.
+      My CV is currently being prepared and will be available soon.
     </p>
 
     <div className="coming-soon-status">
@@ -20,8 +18,7 @@ return ( <section className="coming-soon"> <div className="coming-soon-content">
   </div>
 </section>
 
-
 );
 }
 
-export default Videos;
+export default ComingSoon;

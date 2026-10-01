@@ -8,23 +8,21 @@ import {
   FaReact,
   FaPython,
   FaNodeJs,
-  FaHtml5,
-  FaCss3Alt,
   FaLinux,
   FaGitAlt,
   FaGithub,
-  FaDocker,
+  FaTerminal,
+  FaGraduationCap,
 } from 'react-icons/fa';
 
 import {
   SiJavascript,
-  SiExpress,
   SiKalilinux,
+  SiArchlinux,
   SiBurpsuite,
-  SiWireshark,
   SiOwasp,
-  SiGraphql,
-  SiPostman,
+  SiHackerone,
+  SiBugcrowd,
 } from 'react-icons/si';
 
 /* ============================================================
@@ -32,29 +30,22 @@ import {
    ============================================================ */
 
 const HERO_QUOTES = [
-  'The Bug is Somewhere',
   'Think Like the Attacker',
-  'Patch One, Find Two',
+  'The Bug in SomeWhere',
 ];
 
 const TECH_STACK = [
-  // Development
-  { id: 'react', title: 'React', icon: <FaReact /> },
-  { id: 'javascript', title: 'JavaScript', icon: <SiJavascript /> },
-  { id: 'python', title: 'Python', icon: <FaPython /> },
-  { id: 'nodejs', title: 'Node.js', icon: <FaNodeJs /> },
-  { id: 'express', title: 'Express', icon: <SiExpress /> },
+  // Computer Science & Tech Foundations
+  { id: 'cs', title: 'Computer Science', icon: <FaGraduationCap /> },
 
-  // Web Technologies
-  { id: 'html5', title: 'HTML5', icon: <FaHtml5 /> },
-  { id: 'css3', title: 'CSS3', icon: <FaCss3Alt /> },
-
-  // Operating Systems
-  { id: 'linux', title: 'Linux', icon: <FaLinux /> },
-  { id: 'kalilinux', title: 'Kali Linux', icon: <SiKalilinux /> },
-
-  // Security Tools and Technologies
+  // Security & Recon Tools
   { id: 'burpsuite', title: 'Burp Suite', icon: <SiBurpsuite /> },
+  {
+    id: 'caido',
+    title: 'Caido',
+    icon: <span>CAIDO</span>,
+    isTextIcon: true,
+  },
   {
     id: 'nmap',
     title: 'Nmap',
@@ -62,50 +53,36 @@ const TECH_STACK = [
     isTextIcon: true,
   },
   {
-    id: 'wireshark',
-    title: 'Wireshark',
-    icon: <SiWireshark />,
+    id: 'ffuf',
+    title: 'FFUF',
+    icon: <span>FFUF</span>,
+    isTextIcon: true,
   },
   {
     id: 'owasp',
-    title: 'OWASP',
+    title: 'OWASP Top 10',
     icon: <SiOwasp />,
   },
-  {
-    id: 'graphql',
-    title: 'GraphQL',
-    icon: <SiGraphql />,
-  },
-  {
-    id: 'metasploit',
-    title: 'Metasploit',
-    icon: <span>MSF</span>,
-    isTextIcon: true,
-  },
 
-  // Development and DevOps Tools
-  {
-    id: 'postman',
-    title: 'Postman',
-    icon: <SiPostman />,
-  },
-  {
-    id: 'docker',
-    title: 'Docker',
-    icon: <FaDocker />,
-  },
+  // Operating Systems
+  { id: 'archlinux', title: 'Arch Linux', icon: <SiArchlinux /> },
+  { id: 'kalilinux', title: 'Kali Linux', icon: <SiKalilinux /> },
+  { id: 'linux', title: 'Linux', icon: <FaLinux /> },
 
-  // Version Control
-  {
-    id: 'git',
-    title: 'Git',
-    icon: <FaGitAlt />,
-  },
-  {
-    id: 'github',
-    title: 'GitHub',
-    icon: <FaGithub />,
-  },
+  // Languages & Scripting
+  { id: 'python', title: 'Python', icon: <FaPython /> },
+  { id: 'bash', title: 'Bash / Shell', icon: <FaTerminal /> },
+  { id: 'javascript', title: 'JavaScript', icon: <SiJavascript /> },
+
+  // Frameworks & Development
+  { id: 'react', title: 'React', icon: <FaReact /> },
+  { id: 'nodejs', title: 'Node.js', icon: <FaNodeJs /> },
+
+  // Platforms & Version Control
+  { id: 'hackerone', title: 'HackerOne', icon: <SiHackerone /> },
+  { id: 'bugcrowd', title: 'Bugcrowd', icon: <SiBugcrowd /> },
+  { id: 'git', title: 'Git', icon: <FaGitAlt /> },
+  { id: 'github', title: 'GitHub', icon: <FaGithub /> },
 ];
 
 /* ============================================================
@@ -133,7 +110,7 @@ const TechItem = ({
 const TechMarquee = () => {
   return (
     <div className="bento-card bento-tech">
-      <span className="tech-label">Tech-Stack:</span>
+      <span className="tech-label">Tech-Stack & Tools:</span>
 
       <div className="tech-marquee">
         <div className="tech-track">
@@ -176,7 +153,6 @@ const TechMarquee = () => {
    ============================================================ */
 
 const Hero = () => {
-  // Select a random quote when the component is mounted.
   const [quote] = useState(() => {
     const randomIndex = Math.floor(
       Math.random() * HERO_QUOTES.length
@@ -200,7 +176,7 @@ const Hero = () => {
             Hello, I'm{' '}
 
             <span className="hero-name">
-              Yasser-Fekry
+              Yasser Fekry
             </span>{' '}
 
             <span className="code-bracket">
@@ -211,11 +187,11 @@ const Hero = () => {
           <h1 className="hero-title">
             a{' '}
             <span className="highlight-green">
-              {'{Security Researcher}'}
+              {'{CS Student & Security Researcher}'}
             </span>{' '}
-            and
+            &
             <br />
-            Bug-Hunter{' '}
+            Offensive Security Practitioner{' '}
             <span className="blinking-cursor">
               ..
             </span>
@@ -228,27 +204,28 @@ const Hero = () => {
               </span>{' '}
 
               <span className="hero-description">
-                I specialize in{' '}
+                I am a{' '}
+                <span className="pink-highlight">
+                  Computer Science Undergraduate
+                </span>{' '}
+                specializing in{' '}
 
                 <span className="pink-highlight">
-                  cybersecurity
+                  Web Application Penetration Testing
                 </span>
                 ,{' '}
 
                 <span className="pink-highlight">
-                  ethical hacking
+                  API Security
                 </span>
                 , and{' '}
 
                 <span className="pink-highlight">
-                  penetration testing
+                  Vulnerability Research
                 </span>
                 .
 
-                As a passionate content creator, I share
-                tutorials and insights into vulnerability
-                discovery, red teaming, and secure
-                application development.
+                Practicing through platforms like HackerOne and Bugcrowd, I build custom reconnaissance automation toolkits and focus on offensive security methodologies.
               </span>{' '}
 
               <span className="code-bracket">
@@ -264,10 +241,10 @@ const Hero = () => {
           <div className="profile-avatar-glow">
 
             <img
-  src={profilePhoto}
-  alt="Yasser Fekry"
-  className="author-img"
-/>
+              src={profilePhoto}
+              alt="Yasser Fekry"
+              className="author-img"
+            />
 
             <div className="profile-badge">
               <span>0X01</span>

@@ -1,11 +1,13 @@
+
 /* ==========================================================================
    Blog / Markdown Content
    --------------------------------------------------------------------------
-   Styles for rendered Markdown content.
-   Uses the global theme variables so dark/light themes work automatically.
+   Reading-focused Markdown styles.
+   Designed for an Obsidian-like reading experience.
    ========================================================================== */
 
 @layer components {
+
   /* ------------------------------------------------------------------------
      Base
      ------------------------------------------------------------------------ */
@@ -14,23 +16,42 @@
     color: var(--text);
     font-size: 1.0625rem;
     line-height: 1.8;
-    overflow-wrap: anywhere;
+
+    /* Better long-form reading */
+    max-width: 75ch;
+    margin-inline: auto;
+
+    overflow-wrap: break-word;
+    word-break: normal;
     text-wrap: pretty;
+
+    /* Preserve intentional whitespace/new lines */
+    white-space: normal;
   }
 
-  /* Vertical rhythm */
-  .blog-content > * + * {
-    margin-block-start: 1.25em;
+  /* Every block gets breathing room */
+  .blog-content > * {
+    margin-block: 1em;
   }
 
-  /* Avoid inherited global content-width restrictions */
-  .blog-content p,
-  .blog-content li {
-    max-width: none;
+  /* First / last block cleanup */
+  .blog-content > :first-child {
+    margin-block-start: 0;
   }
 
+  .blog-content > :last-child {
+    margin-block-end: 0;
+  }
+
+  /* Paragraphs */
   .blog-content p {
-    margin-block: 0;
+    margin-block: 1.15em;
+    max-width: 75ch;
+  }
+
+  /* Consecutive paragraphs get clear separation */
+  .blog-content p + p {
+    margin-block-start: 1.35em;
   }
 
   /* ------------------------------------------------------------------------
@@ -43,44 +64,49 @@
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.02em;
+
     scroll-margin-block-start: 5rem;
     text-wrap: balance;
   }
 
   .blog-content h1 {
-    margin-block-start: 2.5em;
+    margin-block: 2.5em 1em;
     font-size: clamp(1.8rem, 3vw, 2.25rem);
   }
 
   .blog-content h2 {
-    margin-block-start: 2.5em;
+    margin-block: 2.4em 0.9em;
     padding-block-end: 0.45em;
+
     font-size: clamp(1.45rem, 2.5vw, 1.7rem);
+
     border-block-end: 1px solid var(--line);
   }
 
   .blog-content h3 {
-    margin-block-start: 2em;
+    margin-block: 2em 0.75em;
     font-size: clamp(1.2rem, 2vw, 1.35rem);
   }
 
   .blog-content h4 {
-    margin-block-start: 1.75em;
+    margin-block: 1.75em 0.7em;
     font-size: 1.1rem;
   }
 
   .blog-content h5 {
+    margin-block: 1.5em 0.6em;
     font-size: 1rem;
   }
 
   .blog-content h6 {
-    font-size: 0.95rem;
+    margin-block: 1.5em 0.6em;
     color: var(--text-dim);
+    font-size: 0.95rem;
   }
 
-  /* First heading shouldn't create unnecessary space */
-  .blog-content > :is(h1, h2, h3, h4, h5, h6):first-child {
-    margin-block-start: 0;
+  /* Heading followed immediately by content */
+  .blog-content :is(h1, h2, h3, h4, h5, h6) + * {
+    margin-block-start: 0.8em;
   }
 
   /* ------------------------------------------------------------------------
@@ -89,10 +115,12 @@
 
   .blog-content a {
     color: var(--accent-text, var(--accent));
+
     text-decoration-line: underline;
     text-decoration-thickness: 1px;
     text-decoration-color: currentColor;
     text-underline-offset: 0.2em;
+
     transition:
       color 150ms ease,
       text-decoration-thickness 150ms ease;
@@ -113,6 +141,7 @@
      ------------------------------------------------------------------------ */
 
   .blog-content :is(ul, ol) {
+    margin-block: 1.2em;
     padding-inline-start: 1.7em;
   }
 
@@ -129,7 +158,7 @@
   }
 
   .blog-content li + li {
-    margin-block-start: 0.45em;
+    margin-block-start: 0.5em;
   }
 
   .blog-content li::marker {
@@ -139,7 +168,8 @@
 
   /* Nested lists */
   .blog-content li > :is(ul, ol) {
-    margin-block-start: 0.45em;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
   }
 
   .blog-content ul ul {
@@ -175,19 +205,25 @@
 
   .blog-content blockquote {
     margin-block: 1.75em;
-    padding-block: 0.35em;
+    padding-block: 0.5em;
     padding-inline-start: 1.25em;
+
     border-inline-start: 3px solid var(--accent);
+
     color: var(--text-dim);
     font-style: italic;
   }
 
   .blog-content blockquote > * {
-    margin-block: 0;
+    margin-block: 0.5em;
   }
 
-  .blog-content blockquote > * + * {
-    margin-block-start: 0.75em;
+  .blog-content blockquote > *:first-child {
+    margin-block-start: 0;
+  }
+
+  .blog-content blockquote > *:last-child {
+    margin-block-end: 0;
   }
 
   .blog-content blockquote strong {
@@ -210,12 +246,23 @@
 
   .blog-content :not(pre) > code {
     padding: 0.15em 0.4em;
+
     border: 1px solid var(--line);
     border-radius: 0.35rem;
-    background: var(--surface, color-mix(in srgb, var(--text) 5%, transparent));
+
+    background:
+      var(--surface,
+      color-mix(in srgb, var(--text) 5%, transparent));
+
     color: var(--accent-text, var(--accent));
+
     font-family: var(--font-mono, monospace);
     font-size: 0.88em;
+
+    /*
+      Important:
+      Keep spaces inside inline code exactly as written.
+    */
     white-space: break-spaces;
   }
 
@@ -225,27 +272,40 @@
 
   .blog-content pre {
     position: relative;
+
     margin-block: 1.75em;
     padding: 1.1rem 1.25rem;
+
     max-width: 100%;
     overflow-x: auto;
+
     border: 1px solid var(--line);
     border-radius: var(--radius, 0.75rem);
+
     background: var(--code-bg, var(--surface));
     color: var(--text);
+
     line-height: 1.65;
     tab-size: 2;
+
     -webkit-overflow-scrolling: touch;
+
+    /* Preserve code formatting exactly */
+    white-space: pre;
   }
 
   .blog-content pre code {
     display: block;
+
     padding: 0;
     border: 0;
+
     background: transparent;
     color: inherit;
+
     font-family: var(--font-mono, monospace);
     font-size: 0.875rem;
+
     white-space: pre;
   }
 
@@ -265,13 +325,17 @@
 
   .blog-content kbd {
     padding: 0.15em 0.45em;
+
     border: 1px solid var(--line);
     border-bottom-width: 2px;
     border-radius: 0.35rem;
+
     background: var(--surface);
     color: var(--heading, var(--text));
+
     font-family: var(--font-mono, monospace);
     font-size: 0.8em;
+
     white-space: nowrap;
   }
 
@@ -282,12 +346,12 @@
   .blog-content table {
     width: 100%;
     margin-block: 1.75em;
+
     border-collapse: collapse;
+
     font-size: 0.95em;
   }
 
-  /* Wrapper generated by Markdown renderer is preferred.
-     If no wrapper exists, allow horizontal scrolling directly. */
   .blog-content :is(table, .table-wrapper) {
     max-width: 100%;
   }
@@ -300,26 +364,27 @@
   .blog-content th,
   .blog-content td {
     padding: 0.7em 0.9em;
+
     border-bottom: 1px solid var(--line);
+
     text-align: start;
     vertical-align: top;
   }
 
   .blog-content th {
     color: var(--heading, var(--text));
+
     font-family: var(--font-mono, monospace);
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+
     white-space: nowrap;
   }
 
   .blog-content tbody tr:hover {
-    background: color-mix(
-      in srgb,
-      var(--accent) 4%,
-      transparent
-    );
+    background:
+      color-mix(in srgb, var(--accent) 4%, transparent);
   }
 
   /* ------------------------------------------------------------------------
@@ -328,9 +393,12 @@
 
   .blog-content img {
     display: block;
+
     max-width: 100%;
     height: auto;
-    margin-inline: auto;
+
+    margin: 2em auto;
+
     border: 1px solid var(--line);
     border-radius: var(--radius, 0.75rem);
   }
@@ -341,9 +409,11 @@
 
   .blog-content figcaption {
     margin-block-start: 0.65em;
+
     color: var(--text-dim);
     font-size: 0.85rem;
     line-height: 1.5;
+
     text-align: center;
   }
 
@@ -362,8 +432,12 @@
 
   .blog-content mark {
     padding-inline: 0.2em;
+
     border-radius: 0.2em;
-    background: color-mix(in srgb, var(--accent) 20%, transparent);
+
+    background:
+      color-mix(in srgb, var(--accent) 20%, transparent);
+
     color: inherit;
   }
 
@@ -372,14 +446,18 @@
      ------------------------------------------------------------------------ */
 
   .blog-content details {
+    margin-block: 1.25em;
     padding: 0.9rem 1rem;
+
     border: 1px solid var(--line);
     border-radius: var(--radius, 0.75rem);
+
     background: var(--surface);
   }
 
   .blog-content summary {
     cursor: pointer;
+
     color: var(--heading, var(--text));
     font-weight: 600;
   }
@@ -401,20 +479,9 @@
 
   .blog-content abbr[title] {
     cursor: help;
+
     text-decoration: underline dotted;
     text-underline-offset: 0.2em;
-  }
-
-  /* ------------------------------------------------------------------------
-     First / Last Element Cleanup
-     ------------------------------------------------------------------------ */
-
-  .blog-content > :first-child {
-    margin-block-start: 0;
-  }
-
-  .blog-content > :last-child {
-    margin-block-end: 0;
   }
 
   /* ------------------------------------------------------------------------
@@ -422,9 +489,19 @@
      ------------------------------------------------------------------------ */
 
   @media (max-width: 640px) {
+
     .blog-content {
+      max-width: 100%;
       font-size: 1rem;
       line-height: 1.75;
+    }
+
+    .blog-content p {
+      margin-block: 1em;
+    }
+
+    .blog-content p + p {
+      margin-block-start: 1.2em;
     }
 
     .blog-content h1 {
@@ -442,7 +519,9 @@
     .blog-content pre {
       margin-inline: -0.25rem;
       padding: 0.9rem 1rem;
-      border-radius: calc(var(--radius, 0.75rem) * 0.8);
+
+      border-radius:
+        calc(var(--radius, 0.75rem) * 0.8);
     }
 
     .blog-content pre code {

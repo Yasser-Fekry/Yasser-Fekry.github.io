@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import { getPostBySlug } from '../utils/mdLoader';
 import '../styles/blog.css';
 
+
 const SITE_NAME = 'My-Blog';
 
 // Open external links in a new tab; keep internal links in the SPA.
@@ -53,22 +54,34 @@ export default function BlogPost() {
 
   // Page title + reset scroll when navigating between posts
   useEffect(() => {
-    document.title = post ? `${post.title} | ${SITE_NAME}` : `Not found | ${SITE_NAME}`;
+    if (!post) {
+      document.title = `Not found | ${SITE_NAME}`;
+    } else {
+      // Uses the real title only (never the file name)
+      document.title = post.title ? `${post.title} | ${SITE_NAME}` : SITE_NAME;
+    }
     window.scrollTo(0, 0);
   }, [post]);
 
   if (!post) return <PostNotFound />;
 
+  // Only render the header if there is something to show in it
+  const hasHeader = Boolean(post.date || post.title);
+
   return (
     <main className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
       <BackLink />
 
-      <header className="mb-10 text-center">
-        <p className="mb-3 font-mono text-xs text-text-dim">
-          {[post.date, post.readTime].filter(Boolean).join(' • ')}
-        </p>
-        <h1 className="mb-0 text-3xl sm:text-4xl">{post.title}</h1>
-      </header>
+      {hasHeader && (
+        <header className="mb-10 text-center">
+          {post.date && (
+            <p className="mb-3 font-mono text-xs text-text-dim">{post.date}</p>
+          )}
+          {post.title && (
+            <h1 className="mb-0 text-3xl sm:text-4xl">{post.title}</h1>
+          )}
+        </header>
+      )}
 
       <article className="blog-content">
         <ReactMarkdown components={markdownComponents}>{post.content}</ReactMarkdown>

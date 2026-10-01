@@ -43,7 +43,7 @@ export default function Expertise() {
       <div className="expertise-bento">
         <div className="bento-card expertise-card">
           <header className="expertise-header">
-            
+
 
             <h2 id="expertise-title" className="expertise-title">
 

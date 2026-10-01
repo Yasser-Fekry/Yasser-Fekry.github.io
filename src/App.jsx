@@ -2,13 +2,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import BackToTop from "./components/BackToTop";
 import Home from "./pages/Home";
-import About from "./pages/About"
+import About from "./pages/About";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Resume from "./pages/Resume";
 import Contact from "./pages/Contact";
-import Video from './pages/Video';
+import Video from "./pages/Video";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
       </main>
 
       <Footer />
+
+      <BackToTop />
     </BrowserRouter>
   );
 }

@@ -97,6 +97,7 @@ function parseDate(value) {
     : new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()));
 }
 
+// File name -> readable text. Used ONLY for the card title, never on the post page.
 const humanizeSlug = (slug) =>
   slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 
@@ -118,14 +119,13 @@ function parsePost(raw, filePath) {
   let title = typeof data.title === 'string' ? data.title : '';
 
   // No title in frontmatter: use a leading "# Heading" (and remove it, so the
-  // page doesn't show the same title twice), otherwise build one from the slug.
+  // page doesn't show the same title twice). If there is none, `title` stays
+  // empty so the post page shows nothing; the card falls back to the file name.
   if (!title) {
     const heading = content.match(/^#\s+(.+?)\s*#*\s*(?:\r?\n|$)/);
     if (heading) {
       title = heading[1];
       content = content.slice(heading[0].length).trim();
-    } else {
-      title = humanizeSlug(slug);
     }
   }
 
@@ -134,7 +134,8 @@ function parsePost(raw, filePath) {
 
   return {
     slug,
-    title,
+    title,                                  // real title only, may be empty
+    cardTitle: title || humanizeSlug(slug), // card fallback: file name
     date: date ? dateFormatter.format(date) : '',
     timestamp: date ? date.getTime() : 0,
     readTime: data.readTime || getReadTime(plainText),
@@ -148,7 +149,7 @@ function parsePost(raw, filePath) {
 
 /* ---------- Load once, reuse everywhere ---------- */
 
-const modules = import.meta.glob('/src/content/blog/*.md', {
+const modules = import.meta.glob('/src/content/blog/**/*.md', {
   query: '?raw',
   import: 'default',
   eager: true,
@@ -157,7 +158,7 @@ const modules = import.meta.glob('/src/content/blog/*.md', {
 const posts = Object.entries(modules)
   .map(([path, raw]) => parsePost(raw, path))
   .filter((post) => post && !(post.draft && import.meta.env.PROD)) // drafts show only in dev
-  .sort((a, b) => b.timestamp - a.timestamp || a.title.localeCompare(b.title)); // newest first
+  .sort((a, b) => b.timestamp - a.timestamp || a.cardTitle.localeCompare(b.cardTitle)); // newest first
 
 const postsBySlug = new Map(posts.map((post) => [post.slug, post]));
 
