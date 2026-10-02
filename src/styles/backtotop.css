@@ -6,8 +6,6 @@
   position: fixed;
   right: max(1.25rem, env(safe-area-inset-right));
   bottom: max(1.25rem, env(safe-area-inset-bottom));
-
-  /* high enough to sit above overlays, headers, modals */
   z-index: 9999;
 
   display: grid;
@@ -19,7 +17,9 @@
 
   color: var(--text-dim);
 
-  background: linear-gradient(
+  /* fallback if backdrop-filter is unsupported */
+  background-color: var(--panel-2);
+  background-image: linear-gradient(
     145deg,
     color-mix(in srgb, var(--heading) 10%, transparent),
     color-mix(in srgb, var(--heading) 3%, transparent)
@@ -32,9 +32,6 @@
     0 10px 30px color-mix(in srgb, #000 28%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--heading) 14%, transparent);
 
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  backdrop-filter: blur(16px) saturate(1.3);
-
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -46,24 +43,26 @@
   transform: translateY(14px) scale(0.92);
 
   transition:
-    opacity var(--transition),
-    visibility var(--transition),
-    transform var(--transition),
-    color var(--transition-fast),
-    border-color var(--transition-fast),
-    background var(--transition-fast),
-    box-shadow var(--transition-fast);
+    opacity var(--transition, 0.3s ease),
+    visibility var(--transition, 0.3s ease),
+    transform var(--transition, 0.3s ease),
+    color var(--transition-fast, 0.2s ease),
+    border-color var(--transition-fast, 0.2s ease),
+    background var(--transition-fast, 0.2s ease),
+    box-shadow var(--transition-fast, 0.2s ease);
 }
 
-/* Backdrop fallback */
-@supports not (backdrop-filter: blur(1px)) {
+/* Real glass only where blur is supported */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
   .back-to-top {
-    background-color: var(--panel-2);
+    background-color: color-mix(in srgb, var(--panel) 45%, transparent);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    backdrop-filter: blur(24px) saturate(1.5);
   }
 }
 
 /* ==========================================================================
-   Visible State
+   Visible
    ========================================================================== */
 
 .back-to-top.show {
@@ -81,30 +80,24 @@
   width: 19px;
   height: 19px;
   flex-shrink: 0;
-
-  /* clicks always land on the button, never on the svg */
-  pointer-events: none;
-
-  transition: transform var(--transition);
+  pointer-events: none; /* clicks always land on the button */
+  transition: transform var(--transition, 0.3s ease);
 }
 
 /* ==========================================================================
-   Hover (only when visible)
+   Hover / Active (only when visible)
    ========================================================================== */
 
 @media (hover: hover) {
   .back-to-top.show:hover {
     color: var(--accent);
     border-color: var(--accent);
-
-    background: linear-gradient(
+    background-image: linear-gradient(
       145deg,
       color-mix(in srgb, var(--accent) 12%, transparent),
       color-mix(in srgb, var(--heading) 5%, transparent)
     );
-
     transform: translateY(-3px) scale(1);
-
     box-shadow:
       0 14px 34px color-mix(in srgb, #000 32%, transparent),
       0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent),
@@ -116,16 +109,12 @@
   }
 }
 
-/* ==========================================================================
-   Active (only when visible)
-   ========================================================================== */
-
 .back-to-top.show:active {
   transform: translateY(0) scale(0.93);
 }
 
 /* ==========================================================================
-   Keyboard Focus
+   Focus
    ========================================================================== */
 
 .back-to-top:focus-visible {
@@ -149,14 +138,12 @@
    ========================================================================== */
 
 html[data-theme="light"] .back-to-top {
-  background: linear-gradient(
+  background-image: linear-gradient(
     145deg,
     color-mix(in srgb, #ffffff 75%, transparent),
     color-mix(in srgb, #ffffff 45%, transparent)
   );
-
   border-color: color-mix(in srgb, var(--line) 80%, transparent);
-
   box-shadow:
     0 10px 30px color-mix(in srgb, #000 12%, transparent),
     inset 0 1px 0 rgb(255 255 255 / 0.8);
@@ -164,7 +151,7 @@ html[data-theme="light"] .back-to-top {
 
 @media (hover: hover) {
   html[data-theme="light"] .back-to-top.show:hover {
-    background: linear-gradient(
+    background-image: linear-gradient(
       145deg,
       color-mix(in srgb, var(--accent) 10%, #ffffff),
       color-mix(in srgb, var(--accent) 4%, #ffffff)
@@ -201,9 +188,7 @@ html[data-theme="light"] .back-to-top {
   .back-to-top.show:active,
   .back-to-top svg,
   .back-to-top.show:hover svg {
-    transition:
-      opacity 0.01ms,
-      visibility 0.01ms;
+    transition: opacity 0.01ms, visibility 0.01ms;
     transform: none;
   }
 }
