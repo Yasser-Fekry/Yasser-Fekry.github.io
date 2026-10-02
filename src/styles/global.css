@@ -25,7 +25,7 @@
   --radius-lg: 12px;
 }
 
-/* ---------- Theme Variables (palette unchanged) ---------- */
+/* ---------- Theme Variables ---------- */
 :root {
   --c-1: #cbd5e1;
   --c-2: #1e293b;
@@ -36,7 +36,7 @@
   --panel: var(--c-3);
   --panel-2: #131c31;
   --line: var(--c-2);
-  --glass: rgb(15 23 42 / 0.8);
+  --glass: rgb(15 23 42 / 0.5);            /* was 0.8: more transparent so blur is visible */
   --glass-line: rgb(30 41 59 / 0.7);
 
   --text: var(--c-1);
@@ -44,7 +44,7 @@
   --heading: #f8fafc;
 
   --accent: #38bdf8;
-  --accent-text: var(--accent);   /* accent used for text/links */
+  --accent-text: var(--accent);
   --accent-dim: #0284c7;
   --accent-secondary: #f59e0b;
   --code-pink: #f43f5e;
@@ -56,6 +56,13 @@
   --radius: 12px;
   --container-max: 1100px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Used by backtotop.css and other components */
+  --transition: 0.3s var(--ease);
+  --transition-fast: 0.2s var(--ease);
+
+  /* One place to tune the blur strength */
+  --blur: blur(24px) saturate(1.5);
 }
 
 html[data-theme="light"] {
@@ -63,7 +70,7 @@ html[data-theme="light"] {
   --panel: #ffffff;
   --panel-2: #f1f5f9;
   --line: #cbd5e1;
-  --glass: rgb(255 255 255 / 0.85);
+  --glass: rgb(255 255 255 / 0.55);        /* was 0.85 */
   --glass-line: rgb(203 213 225 / 0.6);
 
   --text: #1e293b;
@@ -71,7 +78,7 @@ html[data-theme="light"] {
   --heading: #0f172a;
 
   --accent: #0284c7;
-  --accent-text: #0369a1;         /* darker shade so links pass AA contrast on white */
+  --accent-text: #0369a1;
   --accent-dim: #bae6fd;
   --accent-secondary: #d97706;
   --code-pink: #e11d48;
@@ -82,8 +89,6 @@ html[data-theme="light"] {
 
 /* =====================================================
    BASE LAYER
-   Everything below sits in a layer, so Tailwind utilities
-   (p-4, text-center, mt-8 ...) can override it as expected.
    ===================================================== */
 @layer base {
   *,
@@ -94,7 +99,7 @@ html[data-theme="light"] {
 
   html {
     color-scheme: dark;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth;  removed: BackToTop.jsx animates the scroll itself */
     scroll-padding-top: 5rem;
     scrollbar-gutter: stable;
     background-color: var(--ink);
@@ -160,7 +165,6 @@ html[data-theme="light"] {
   h3 { font-size: clamp(1.2rem, 1.5vw + 0.2rem, 1.5rem); }
   h4 { font-size: 1.05rem; }
 
-  /* Sections after the first heading get breathing room */
   :where(p, ul, ol, pre, blockquote, table) + :where(h2, h3, h4) {
     margin-top: 2em;
   }
@@ -256,7 +260,6 @@ html[data-theme="light"] {
     border-radius: 4px;
   }
 
-  /* Skip link for keyboard users: <a class="skip-link" href="#main"> */
   .skip-link {
     position: absolute;
     left: 1rem;
@@ -307,7 +310,7 @@ html[data-theme="light"] {
     border-bottom: none;
   }
 
-  /* ---------- Prose: restores list/quote/table styling for long-form content ---------- */
+  /* ---------- Prose ---------- */
   .prose {
     max-width: var(--measure);
   }
@@ -364,8 +367,24 @@ html[data-theme="light"] {
     .glass,
     .card {
       background-color: var(--glass);
-      backdrop-filter: blur(16px) saturate(1.3);
-      -webkit-backdrop-filter: blur(16px) saturate(1.3);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+    }
+  }
+
+  /* Header / navbar glass: add class="header" (or "glass") to your header element */
+  .header,
+  .navbar {
+    background-color: var(--panel);
+    border: 1px solid var(--glass-line);
+  }
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .header,
+    .navbar {
+      background-color: var(--glass);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
     }
   }
 
@@ -377,7 +396,6 @@ html[data-theme="light"] {
       box-shadow 0.3s var(--ease);
   }
 
-  /* Hover lift only on devices that can actually hover (avoids sticky hover on touch) */
   @media (hover: hover) {
     .card:hover {
       transform: translateY(-3px);
@@ -404,13 +422,13 @@ html[data-theme="light"] {
     font-weight: 500;
     line-height: 1.2;
     padding: 0.7rem 1.35rem;
-    min-height: 2.75rem;                     /* comfortable touch target */
+    min-height: 2.75rem;
     border: 1px solid var(--glass-line);
     border-radius: var(--radius);
     color: var(--text);
     background-color: var(--glass);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
     cursor: pointer;
     user-select: none;
     transition:
@@ -530,7 +548,7 @@ html[data-theme="light"] {
 
 /* ---------- Extra media modes ---------- */
 @media (forced-colors: active) {
-  .btn, .card, .glass, .tag, .field { border: 1px solid CanvasText; }
+  .btn, .card, .glass, .tag, .field, .header, .navbar { border: 1px solid CanvasText; }
 }
 
 @media print {
