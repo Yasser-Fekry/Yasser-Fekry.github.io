@@ -19,7 +19,7 @@ const PROJECTS = [
       "Personal profile site with a dark/light theme and a clean glass interface. Built with React and Tailwind v4.",
     url: "https://yasser-fekry.github.io/",
     repo: "https://github.com/your-name/portfolio",
-    image: "/src/assets/images/Projects/image.png",
+    image: "src/assets/images/Projects/image.png",
   },
   {
     id: "recon-kit",
