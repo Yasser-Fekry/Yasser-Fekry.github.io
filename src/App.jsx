@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import BackToTop from "./components/BackToTop";
 import Home from "./pages/Home";
-import About from "./pages/About";
+import LatestProjects from "./pages/LatestProjects";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Resume from "./pages/Resume";
@@ -15,8 +15,6 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-
-
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,14 +23,10 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          {/* <Route path="/about" element={<About />} /> */}
+          <Route path="/projects" element={<LatestProjects />} />
         </Routes>
-
       </main>
-
       <Footer />
-
       <BackToTop />
     </BrowserRouter>
   );

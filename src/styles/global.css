@@ -1,115 +1,155 @@
+/* =========================================================
+   GLOBAL STYLES — Tailwind v4 + custom theme + components
+   ========================================================= */
+
+/* ---------- Fonts ---------- */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..800;1,8..60,300..800&display=swap');
+
+/* ---------- Layer order (must come before any @layer usage) ---------- */
 @layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
+
+@import "tailwindcss/theme.css"     layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
-/* ---------- Tailwind v4 Theme Binding ---------- */
+/* =========================================================
+   TAILWIND v4 THEME BINDING
+   Maps our CSS variables to Tailwind utility names
+   ========================================================= */
 @theme {
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   --font-display: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
-  --font-body: 'Source Serif 4', Georgia, Cambria, serif;
+  --font-body:    'Source Serif 4', Georgia, Cambria, serif;
 
-  --color-ink: var(--ink);
-  --color-panel: var(--panel);
-  --color-panel-2: var(--panel-2);
-  --color-line: var(--line);
-  --color-text: var(--text);
-  --color-text-dim: var(--text-dim);
-  --color-heading: var(--heading);
-  --color-accent: var(--accent);
-  --color-accent-dim: var(--accent-dim);
+  --color-ink:              var(--ink);
+  --color-panel:            var(--panel);
+  --color-panel-2:          var(--panel-2);
+  --color-line:             var(--line);
+  --color-text:             var(--text);
+  --color-text-dim:         var(--text-dim);
+  --color-heading:          var(--heading);
+  --color-accent:           var(--accent);
+  --color-accent-dim:       var(--accent-dim);
   --color-accent-secondary: var(--accent-secondary);
-  --color-code-pink: var(--code-pink);
-  --color-danger: var(--danger);
+  --color-code-pink:        var(--code-pink);
+  --color-danger:           var(--danger);
 
   --radius-lg: 12px;
 }
 
-/* ---------- Theme Variables ---------- */
-:root {
-  --c-1: #cbd5e1;
-  --c-2: #1e293b;
-  --c-3: #0f172a;
-  --c-4: #080d1a;
+/* =========================================================
+   THEME TOKENS
+   ========================================================= */
 
-  --ink: var(--c-4);
-  --panel: var(--c-3);
-  --panel-2: #131c31;
-  --line: var(--c-2);
-  --glass: rgb(15 23 42 / 0.5);            /* was 0.8: more transparent so blur is visible */
+/* ---------- Dark (default) ---------- */
+:root {
+  /* Palette primitives */
+  --c-1: #cbd5e1;   /* light slate   */
+  --c-2: #1e293b;   /* slate 800     */
+  --c-3: #0f172a;   /* slate 900     */
+  --c-4: #080d1a;   /* near-black    */
+
+  /* Surfaces */
+  --ink:        var(--c-4);
+  --panel:      var(--c-3);
+  --panel-2:    #131c31;
+  --line:       var(--c-2);
+  --glass:      rgb(15 23 42 / 0.5);
   --glass-line: rgb(30 41 59 / 0.7);
 
-  --text: var(--c-1);
-  --text-dim: #94a3b8;
+  /* Type */
+  --text:    var(--c-1);
+  --text-dim:#94a3b8;
   --heading: #f8fafc;
 
-  --accent: #38bdf8;
-  --accent-text: var(--accent);
-  --accent-dim: #0284c7;
+  /* Accents */
+  --accent:           #38bdf8;
+  --accent-text:      var(--accent);
+  --accent-dim:       #0284c7;
   --accent-secondary: #f59e0b;
-  --code-pink: #f43f5e;
-  --danger: #ef4444;
-  --gradient: linear-gradient(135deg, #0ea5e9, #6366f1);
-  --grid: rgb(56 189 248 / 0.04);
+  --code-pink:        #f43f5e;
+  --danger:           #ef4444;
+  --gradient:         linear-gradient(135deg, #0ea5e9, #6366f1);
+  --grid:             rgb(56 189 248 / 0.04);
 
-  --measure: 68ch;
-  --radius: 12px;
+  /* Metrics */
+  --measure:       68ch;
+  --radius:        12px;
   --container-max: 1100px;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Used by backtotop.css and other components */
-  --transition: 0.3s var(--ease);
+  /* Motion */
+  --ease:            cubic-bezier(0.16, 1, 0.3, 1);
+  --transition:      0.3s var(--ease);
   --transition-fast: 0.2s var(--ease);
 
-  /* One place to tune the blur strength */
+  /* Effects */
   --blur: blur(24px) saturate(1.5);
 }
 
+/* ---------- Light theme (via html[data-theme="light"]) ---------- */
 html[data-theme="light"] {
-  --ink: #f8fafc;
-  --panel: #ffffff;
-  --panel-2: #f1f5f9;
-  --line: #cbd5e1;
-  --glass: rgb(255 255 255 / 0.55);        /* was 0.85 */
+  --ink:        #f8fafc;
+  --panel:      #ffffff;
+  --panel-2:    #f1f5f9;
+  --line:       #cbd5e1;
+  --glass:      rgb(255 255 255 / 0.55);
   --glass-line: rgb(203 213 225 / 0.6);
 
-  --text: #1e293b;
-  --text-dim: #64748b;
+  --text:    #1e293b;
+  --text-dim:#64748b;
   --heading: #0f172a;
 
-  --accent: #0284c7;
-  --accent-text: #0369a1;
-  --accent-dim: #bae6fd;
+  --accent:           #0284c7;
+  --accent-text:      #0369a1;
+  --accent-dim:       #bae6fd;
   --accent-secondary: #d97706;
-  --code-pink: #e11d48;
-  --danger: #dc2626;
-  --gradient: linear-gradient(135deg, #0284c7, #4f46e5);
-  --grid: rgb(15 23 42 / 0.04);
+  --code-pink:        #e11d48;
+  --danger:           #dc2626;
+  --gradient:         linear-gradient(135deg, #0284c7, #4f46e5);
+  --grid:             rgb(15 23 42 / 0.04);
 }
 
-/* =====================================================
-   BASE LAYER
-   ===================================================== */
-@layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
+/* ---------- Automatic light theme (no data-theme attribute) ---------- */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme]) {
+    color-scheme: light;
+
+    --ink:        #f8fafc;
+    --panel:      #ffffff;
+    --panel-2:    #f1f5f9;
+    --line:       #cbd5e1;
+    --glass:      rgb(255 255 255 / 0.55);
+    --glass-line: rgb(203 213 225 / 0.6);
+
+    --text:    #1e293b;
+    --text-dim:#64748b;
+    --heading: #0f172a;
+
+    --accent:           #0284c7;
+    --accent-text:      #0369a1;
+    --accent-dim:       #bae6fd;
+    --accent-secondary: #d97706;
+    --code-pink:        #e11d48;
+    --danger:           #dc2626;
+    --gradient:         linear-gradient(135deg, #0284c7, #4f46e5);
+    --grid:             rgb(15 23 42 / 0.04);
   }
+}
+
+/* =========================================================
+   BASE LAYER
+   ========================================================= */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
 
   html {
     color-scheme: dark;
-    /* scroll-behavior: smooth;  removed: BackToTop.jsx animates the scroll itself */
     scroll-padding-top: 5rem;
     scrollbar-gutter: stable;
     background-color: var(--ink);
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
-
-  html[data-theme="light"] {
-    color-scheme: light;
-  }
+  html[data-theme="light"] { color-scheme: light; }
 
   body {
     position: relative;
@@ -129,7 +169,7 @@ html[data-theme="light"] {
     transition: background-color 0.3s var(--ease), color 0.3s var(--ease);
   }
 
-  /* Soft ambient glow + faint grid, fades out down the page */
+  /* Ambient glow + faint grid, fading out down the page */
   body::before {
     content: "";
     position: fixed;
@@ -137,11 +177,12 @@ html[data-theme="light"] {
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(60rem 28rem at 50% -8%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
-      linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 48px 48px,
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 48px 48px;
+      radial-gradient(60rem 28rem at 50% -8%,
+        color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+      linear-gradient(var(--grid) 1px, transparent 1px)          0 0 / 48px 48px,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px)   0 0 / 48px 48px;
     -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
-    mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
+            mask-image: linear-gradient(to bottom, #000 0%, transparent 85%);
   }
 
   ::selection {
@@ -159,10 +200,9 @@ html[data-theme="light"] {
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
-
   h1 { font-size: clamp(2.25rem, 4.5vw + 1rem, 3.5rem); }
-  h2 { font-size: clamp(1.5rem, 2.8vw + 0.5rem, 2.25rem); }
-  h3 { font-size: clamp(1.2rem, 1.5vw + 0.2rem, 1.5rem); }
+  h2 { font-size: clamp(1.5rem,  2.8vw + 0.5rem, 2.25rem); }
+  h3 { font-size: clamp(1.2rem,  1.5vw + 0.2rem, 1.5rem); }
   h4 { font-size: 1.05rem; }
 
   :where(p, ul, ol, pre, blockquote, table) + :where(h2, h3, h4) {
@@ -176,8 +216,8 @@ html[data-theme="light"] {
     text-wrap: pretty;
   }
 
-  small { color: var(--text-dim); font-size: 0.875em; }
-  strong, b { color: var(--heading); font-weight: 650; }
+  small       { color: var(--text-dim); font-size: 0.875em; }
+  strong, b   { color: var(--heading);  font-weight: 650; }
 
   a {
     color: var(--accent-text);
@@ -186,10 +226,7 @@ html[data-theme="light"] {
     text-decoration-thickness: 1px;
     transition: color 0.2s var(--ease);
   }
-
-  a:hover {
-    text-decoration: underline;
-  }
+  a:hover { text-decoration: underline; }
 
   button, input, textarea, select {
     font: inherit;
@@ -197,17 +234,9 @@ html[data-theme="light"] {
     color: inherit;
   }
 
-  ul, ol {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
+  ul, ol { padding: 0; margin: 0; list-style: none; }
 
-  img, svg, video {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
+  img, svg, video { max-width: 100%; height: auto; display: block; }
 
   hr {
     border: 0;
@@ -215,7 +244,7 @@ html[data-theme="light"] {
     margin-block: 2.5rem;
   }
 
-  /* ---------- Code ---------- */
+  /* ---------- Inline code & code blocks ---------- */
   code, kbd, pre {
     font-family: var(--font-mono);
     font-size: 0.9em;
@@ -248,7 +277,7 @@ html[data-theme="light"] {
     padding: 0.05em 0.4em;
   }
 
-  /* ---------- Scrollbars & Focus ---------- */
+  /* ---------- Scrollbars & focus ---------- */
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--line) transparent;
@@ -273,15 +302,11 @@ html[data-theme="light"] {
     font-size: 0.875rem;
     transition: top 0.2s var(--ease);
   }
+  .skip-link:focus { top: 1rem; }
 
-  .skip-link:focus {
-    top: 1rem;
-  }
-
+  /* ---------- Reduced motion ---------- */
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -290,10 +315,11 @@ html[data-theme="light"] {
   }
 }
 
-/* =====================================================
+/* =========================================================
    COMPONENTS LAYER
-   ===================================================== */
+   ========================================================= */
 @layer components {
+
   /* ---------- Layout ---------- */
   .container {
     width: min(100% - 3rem, var(--container-max));
@@ -305,22 +331,16 @@ html[data-theme="light"] {
     border-bottom: 1px solid transparent;
     border-image: linear-gradient(90deg, transparent, var(--line), transparent) 1;
   }
-
-  .section:last-of-type {
-    border-bottom: none;
-  }
+  .section:last-of-type { border-bottom: none; }
 
   /* ---------- Prose ---------- */
-  .prose {
-    max-width: var(--measure);
-  }
+  .prose { max-width: var(--measure); }
 
   .prose ul,
   .prose ol {
     padding-inline-start: 1.5em;
     margin-block: 0 1.25em;
   }
-
   .prose ul { list-style: disc; }
   .prose ol { list-style: decimal; }
   .prose li { margin-block: 0.4em; padding-inline-start: 0.25em; }
@@ -340,14 +360,12 @@ html[data-theme="light"] {
     font-size: 0.95em;
     margin-block: 1.5em;
   }
-
   .prose th,
   .prose td {
     text-align: start;
     padding: 0.6em 0.9em;
     border-bottom: 1px solid var(--line);
   }
-
   .prose th {
     font-family: var(--font-mono);
     font-size: 0.8rem;
@@ -355,31 +373,19 @@ html[data-theme="light"] {
     color: var(--heading);
   }
 
-  /* ---------- Glass & Cards ---------- */
+  /* ---------- Glass surfaces (shared) ---------- */
   .glass,
-  .card {
-    background-color: var(--panel);            /* fallback when blur is unsupported */
+  .card,
+  .header,
+  .navbar {
+    background-color: var(--panel);   /* fallback for no-blur browsers */
     border: 1px solid var(--glass-line);
     border-radius: var(--radius);
   }
 
   @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
     .glass,
-    .card {
-      background-color: var(--glass);
-      backdrop-filter: var(--blur);
-      -webkit-backdrop-filter: var(--blur);
-    }
-  }
-
-  /* Header / navbar glass: add class="header" (or "glass") to your header element */
-  .header,
-  .navbar {
-    background-color: var(--panel);
-    border: 1px solid var(--glass-line);
-  }
-
-  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    .card,
     .header,
     .navbar {
       background-color: var(--glass);
@@ -388,6 +394,13 @@ html[data-theme="light"] {
     }
   }
 
+  /* Header/navbar: slightly stronger tint over content underneath */
+  .header,
+  .navbar {
+    border-radius: 0;
+  }
+
+  /* Cards add padding + hover lift */
   .card {
     padding: 1.5rem;
     transition:
@@ -407,7 +420,7 @@ html[data-theme="light"] {
   .gradient-text {
     background: var(--gradient);
     -webkit-background-clip: text;
-    background-clip: text;
+            background-clip: text;
     color: transparent;
   }
 
@@ -432,12 +445,12 @@ html[data-theme="light"] {
     cursor: pointer;
     user-select: none;
     transition:
-      color 0.25s var(--ease),
+      color        0.25s var(--ease),
       background-color 0.25s var(--ease),
       border-color 0.25s var(--ease),
-      transform 0.25s var(--ease),
-      box-shadow 0.25s var(--ease),
-      filter 0.25s var(--ease);
+      transform    0.25s var(--ease),
+      box-shadow   0.25s var(--ease),
+      filter       0.25s var(--ease);
   }
 
   .btn:hover {
@@ -453,9 +466,7 @@ html[data-theme="light"] {
     }
   }
 
-  .btn:active {
-    transform: translateY(0) scale(0.97);
-  }
+  .btn:active { transform: translateY(0) scale(0.97); }
 
   .btn:disabled,
   .btn[aria-disabled="true"] {
@@ -470,11 +481,15 @@ html[data-theme="light"] {
     background-color: var(--accent);
     font-weight: 600;
   }
-
   .btn-primary:hover {
     color: var(--c-4);
     filter: brightness(1.12);
     box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+
+  /* Light-theme fix: dark text on bright accent stays legible either way */
+  html[data-theme="light"] .btn-primary {
+    color: #ffffff;
   }
 
   /* ---------- Tags ---------- */
@@ -492,7 +507,6 @@ html[data-theme="light"] {
     padding: 0.35rem 0.8rem;
     transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease);
   }
-
   .tag:hover {
     background-color: color-mix(in srgb, var(--accent) 20%, transparent);
     border-color: var(--accent);
@@ -510,16 +524,8 @@ html[data-theme="light"] {
     border-radius: var(--radius);
     transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
   }
-
-  .field::placeholder {
-    color: var(--text-dim);
-    opacity: 0.8;
-  }
-
-  .field:hover {
-    border-color: var(--glass-line);
-  }
-
+  .field::placeholder { color: var(--text-dim); opacity: 0.8; }
+  .field:hover        { border-color: var(--glass-line); }
   .field:focus-visible {
     outline: none;
     border-color: var(--accent);
@@ -534,26 +540,42 @@ html[data-theme="light"] {
     border-radius: var(--radius);
     background-color: color-mix(in srgb, var(--accent) 8%, transparent);
   }
-
   .note-warning {
     border-color: color-mix(in srgb, var(--accent-secondary) 40%, transparent);
     background-color: color-mix(in srgb, var(--accent-secondary) 8%, transparent);
   }
-
   .note-danger {
     border-color: color-mix(in srgb, var(--danger) 40%, transparent);
     background-color: color-mix(in srgb, var(--danger) 8%, transparent);
   }
 }
 
-/* ---------- Extra media modes ---------- */
+/* =========================================================
+   ACCESSIBILITY / PRINT OVERRIDES
+   ========================================================= */
+
+/* Windows High Contrast mode */
 @media (forced-colors: active) {
-  .btn, .card, .glass, .tag, .field, .header, .navbar { border: 1px solid CanvasText; }
+  .btn, .card, .glass, .tag, .field, .header, .navbar {
+    border: 1px solid CanvasText;
+  }
 }
 
 @media print {
-  html, body { background: #fff !important; color: #000 !important; }
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+  }
   body::before { display: none; }
-  .card, .glass { border-color: #999; backdrop-filter: none; }
-  a { color: inherit; text-decoration: underline; }
+  .card, .glass {
+    border-color: #999;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+  .btn,
+  .skip-link { display: none; }
 }

@@ -10,14 +10,17 @@ const BRAND = "";
 const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/blog", label: "Blog" },
+  { to: "/projects", label: "Projects" },
   { to: "/videos", label: "Videos" },
   { to: "/contact", label: "Contact" },
+
 ];
 
 // Only inside the menu panel (edit / remove as you like)
 const EXTRA_LINKS = [
-  { to: "/about", label: "About" },
+
   { to: "/resume", label: "Resume" },
+
 ];
 
 // TODO: replace the "#" with your real profile URLs

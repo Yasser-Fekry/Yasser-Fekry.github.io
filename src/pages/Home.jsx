@@ -1,6 +1,6 @@
 import Hero from "../components/Hero";
 import Stats from "../components/Stats";
-import About from "../components/About";
+import About from "../components/LatestProjects.jsx";
 import Expertise from "../components/Expertise";
 import Arsenal from "../components/Arsenal";
 import Certifications from "../components/Certifications";
@@ -18,7 +18,7 @@ function Home() {
       <Expertise />
       <Skills />
       <TrustedCompanies />
-      
+
       {/* <About /> */}
       {/* <Arsenal /> */}
       {/* <Certifications /> */}
