@@ -7,6 +7,7 @@ import {
 
 import "../styles/LatestProjects.css";
 import portfolioImg from "../assets/images/Projects/image.png";
+import phishGuardImg from "../assets/images/Projects/image copy.png";
 
 /* =========================================================
    PROJECT DATA
@@ -24,21 +25,24 @@ const PROJECTS = [
     repo: "https://github.com/Yasser-Fekry/Yasser-Fekry.github.io.git",
     image: portfolioImg,
   },
+    {
+    id: "3",
+    title: "vuln-dashboard",
+    type: "Web-APP",
+    year: "2025",
+    description:
+      "Dashboard to manage your reports and writeups, and improve your methodology and mindset.",
+    url: "https://github.com/Yasser-Fekry/vuln-dashboard/releases/tag/Main",
+    repo: "https://github.com/Yasser-Fekry/vuln-dashboard.git",
+    image: phishGuardImg,
+  },
   {
     id: "phish-guard",
     title: "Web-Scanner",
     type: "Security-Tool",
     year: "2027",
     description:
-      "A lightweight browser security concept that evaluates suspicious pages using URL heuristics and client-side analysis.",
-  },
-    {
-    id: "Movie-App",
-    title: "Movie-App",
-    type: "Web-APP",
-    year: "2026",
-    description:
-      "A movie web application that allows users to search for movies, view details, and manage a watchlist Bulit in React.",
+      "A web Appliction to  Find and automation the vulnirabilities of websites To Find Bugs web applications, built with React and Node.js.",
   },
 ];
 
