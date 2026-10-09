@@ -2,6 +2,7 @@
 
 const WORDS_PER_MINUTE = 200;
 const EXCERPT_LENGTH = 160;
+const CONTENT_ROOT_RE = /^.*\/content\/blog\//;
 
 // Frontmatter must start the file and the closing --- must be on its own line
 const FRONTMATTER_RE = /^\uFEFF?---\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/;
@@ -97,9 +98,9 @@ function parseDate(value) {
     : new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()));
 }
 
-// File name -> readable text. Used ONLY for the card title, never on the post page.
+// File name -> readable text. Used for card titles (posts and folders).
 const humanizeSlug = (slug) =>
-  slug.replace(/[-_]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
+  slug.replace(/[_]+/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 
 // First image in the markdown; ignores an optional "title" after the URL
 function findFirstImage(markdown) {
@@ -107,12 +108,20 @@ function findFirstImage(markdown) {
   return match ? match[1] : null;
 }
 
+const byNewest = (a, b) =>
+  b.timestamp - a.timestamp || a.cardTitle.localeCompare(b.cardTitle);
+
 /* ---------- Parser ---------- */
 
 function parsePost(raw, filePath) {
   if (typeof raw !== 'string' || !raw.trim()) return null;
 
-  const slug = filePath.split('/').pop().replace(/\.md$/, '');
+  // "/src/content/blog/react/hooks.md" -> folder "react", slug "hooks"
+  const parts = filePath.replace(CONTENT_ROOT_RE, '').split('/');
+  const fileName = parts.pop().replace(/\.md$/, '');
+  const folder = parts[0] || null; // first directory = folder
+  const slug = fileName;
+
   const { data, body } = parseFrontmatter(raw);
 
   let content = body;
@@ -134,8 +143,10 @@ function parsePost(raw, filePath) {
 
   return {
     slug,
-    title,                                  // real title only, may be empty
-    cardTitle: title || humanizeSlug(slug), // card fallback: file name
+    folder,                                     // null for posts in the root
+    isIndex: Boolean(folder) && fileName === 'index', // folder info, not a post
+    title,                                      // real title only, may be empty
+    cardTitle: title || humanizeSlug(slug),     // card fallback: file name
     date: date ? dateFormatter.format(date) : '',
     timestamp: date ? date.getTime() : 0,
     readTime: data.readTime || getReadTime(plainText),
@@ -155,12 +166,55 @@ const modules = import.meta.glob('/src/content/blog/**/*.md', {
   eager: true,
 });
 
-const posts = Object.entries(modules)
+const parsed = Object.entries(modules)
   .map(([path, raw]) => parsePost(raw, path))
-  .filter((post) => post && !(post.draft && import.meta.env.PROD)) // drafts show only in dev
-  .sort((a, b) => b.timestamp - a.timestamp || a.cardTitle.localeCompare(b.cardTitle)); // newest first
+  .filter((post) => post && !(post.draft && import.meta.env.PROD)); // drafts show only in dev
 
-const postsBySlug = new Map(posts.map((post) => [post.slug, post]));
+// index.md inside a folder = folder info (title, image, description)
+const folderMeta = new Map(
+  parsed.filter((p) => p.isIndex).map((p) => [p.folder, p])
+);
+
+// Real posts only, newest first
+const posts = parsed.filter((p) => !p.isIndex).sort(byNewest);
+
+// Group posts by folder (already sorted, so each group is newest first)
+const postsByFolder = new Map();
+for (const post of posts) {
+  if (!post.folder) continue;
+  if (!postsByFolder.has(post.folder)) postsByFolder.set(post.folder, []);
+  postsByFolder.get(post.folder).push(post);
+}
+
+// One card-shaped object per folder
+const folders = [...postsByFolder.entries()]
+  .map(([slug, items]) => {
+    const meta = folderMeta.get(slug);
+    return {
+      isFolder: true,
+      slug,
+      cardTitle: meta?.title || humanizeSlug(slug),
+      description: meta?.excerpt || '',
+      image: meta?.image || items.find((p) => p.image)?.image || null,
+      count: items.length,
+    };
+  })
+  .sort((a, b) => a.cardTitle.localeCompare(b.cardTitle));
+
+const rootPosts = posts.filter((p) => !p.folder);
+const postsBySlug = new Map();
+for (const post of posts) {
+  // File names should be unique; if not, the first (newest) one wins
+  if (!postsBySlug.has(post.slug)) postsBySlug.set(post.slug, post);
+}
+const foldersBySlug = new Map(folders.map((f) => [f.slug, f]));
+
+/* ---------- Public API ---------- */
 
 export const getAllPosts = () => posts;
 export const getPostBySlug = (slug) => postsBySlug.get(slug);
+
+export const getFolders = () => folders;
+export const getFolder = (slug) => foldersBySlug.get(slug);
+export const getPostsByFolder = (slug) => postsByFolder.get(slug) ?? [];
+export const getRootPosts = () => rootPosts;
